@@ -20,4 +20,4 @@ import { TicketComponent } from './ticket/ticket.component';
     CommonModule
   ]
 })
-export class DeveloperModule { }
+export class DeveloperModule { }  

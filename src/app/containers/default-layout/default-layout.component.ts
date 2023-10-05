@@ -1,3 +1,4 @@
+// default-layout/default-layout.component.ts
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,5 +7,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./default-layout.component.scss']
 })
 export class DefaultLayoutComponent {
-
 }

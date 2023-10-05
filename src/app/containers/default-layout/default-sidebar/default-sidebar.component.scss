@@ -1,0 +1,59 @@
+/* default-sidebar.component.scss */
+
+.sidebar {
+    background-color: #2196F3; /* Mavi tonu */
+    padding: 20px;
+    height: 540px; /* Sayfa yüksekliğinin tamamını kaplamayacak, belirli bir yükseklikte duracak */
+    display: flex;
+    flex-direction: column; /* Dikey düzen */
+    align-items: left; /* İçerikleri ortalamak için */
+    width: 20%;
+    margin-top: 10px;
+  }
+  
+  .sidebar-brand {
+    color: white; /* Yazı rengi beyaz */
+    font-size: 24px;
+    margin-bottom: 20px; /* Marka ismi ile altındaki menü arasında boşluk */
+  }
+  
+  .sidebar-nav {
+    list-style-type: none; /* Noktalı liste stilini kaldır */
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Tam genişlik */
+  }
+  
+  .nav-item {
+    margin-bottom: 15px;
+  }
+  
+  .nav-link {
+    color: white; /* Yazı rengi beyaz */
+    font-size: 18px;
+    text-decoration: none; /* Altı çiziliği kaldır */
+    transition: color 0.3s; /* Geçiş efekti */
+  }
+  
+  .nav-link:hover {
+    color: #45a049; /* Hover efekti */
+  }
+  
+  /* login butonu için özel stiller */
+  .login-btn {
+    background-color: #4CAF50; /* Yeşil tonu */
+    color: white; /* Yazı rengi beyaz */
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: auto; /* Kalan boşluğu en alta it */
+  }
+  
+  .login-btn:hover {
+    background-color: #45a049; /* Hover efekti */
+  }
+  
