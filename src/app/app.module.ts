@@ -9,6 +9,7 @@ import { DefaultSidebarComponent } from './containers/default-layout/default-sid
 
 import { ContentTopbarComponent } from './containers/default-layout/content-topbar/content-topbar.component';
 import { ContentFooterComponent } from './containers/default-layout/content-footer/content-footer.component';
+<<<<<<< HEAD
 import { DefaultWelcomePageComponent } from './containers/default-welcome-page/default-welcome-page.component';
 import { GuidePageComponent } from './containers/default-welcome-page/guide-page/guide-page.component';
 import { HomePageComponent } from './containers/default-welcome-page/home-page/home-page.component';
@@ -17,6 +18,9 @@ import { LoginPageComponent } from './containers/default-welcome-page/login-page
 import { DefaultWelcomePageNavbarComponent } from './containers/default-welcome-page-navbar/default-welcome-page-navbar.component';
 import { ContactPageComponent } from './containers/default-welcome-page/contact-page/contact-page.component';
 
+=======
+import { AuthModule } from './modules/auth/auth.module'; 
+>>>>>>> a3a4db5cb3d799ed25ecb4076c49c042502a2f2f
 
 @NgModule({
   declarations: [
@@ -35,7 +39,8 @@ import { ContactPageComponent } from './containers/default-welcome-page/contact-
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
