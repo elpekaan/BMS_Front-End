@@ -11,7 +11,7 @@ import { DefaultLoginPageComponent } from './containers/default-welcome-page/def
 
 import { ContentTopbarComponent } from './containers/default-layout/content-topbar/content-topbar.component';
 import { ContentFooterComponent } from './containers/default-layout/content-footer/content-footer.component';
-
+import { AuthModule } from './modules/auth/auth.module'; 
 
 @NgModule({
   declarations: [
@@ -26,7 +26,8 @@ import { ContentFooterComponent } from './containers/default-layout/content-foot
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
