@@ -1,6 +1,37 @@
-<app-default-navbar></app-default-navbar>
-<div class="container mt-4">
-<app-default-sidebar></app-default-sidebar>
-<app-default-footer></app-default-footer>
-  <router-outlet></router-outlet>
+ <!-- Page Wrapper -->
+ <div id="wrapper">
+
+  <!-- Sidebar -->
+  <app-default-sidebar></app-default-sidebar>
+  <!-- End of Sidebar -->
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+          <!-- Topbar -->
+          <app-content-topbar></app-content-topbar>
+          <!-- End of Topbar -->
+
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
+             
+          </div>
+          <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+   <app-content-footer></app-content-footer>
+      <!-- End of Footer -->
+
+  </div>
+  <!-- End of Content Wrapper -->
+
 </div>
+<!-- End of Page Wrapper -->
+ 
+
