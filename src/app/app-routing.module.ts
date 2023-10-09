@@ -14,17 +14,24 @@ import { DefaultLayoutComponent } from './containers/default-layout/default-layo
 
 const routes: Routes = [
   { path: '', redirectTo: '/HomePage', pathMatch: 'full' },
-  { path: 'HomePage', component: HomePageComponent},
-  { path: 'GuidePage', component: GuidePageComponent},
-  { path: 'AboutUsPage', component: AboutusPageComponent},
-  { path: 'ContactPage', component: ContactPageComponent},
-  { path: 'LoginPage', component: LoginPageComponent},
-  { path: 'admin/dashboard', component: DashboardComponent },
-  { path: 'admin/project', component: ProjectComponent },
-  { path: 'admin/room', component: RoomComponent },
-  { path: 'admin/task', component: TaskComponent },
-  { path: 'admin/ticket', component: TicketComponent },
-  { path: 'DefaultLayout', component: DefaultLayoutComponent }
+  { path: 'HomePage', component: HomePageComponent },
+  { path: 'GuidePage', component: GuidePageComponent },
+  { path: 'AboutUsPage', component: AboutusPageComponent },
+  { path: 'ContactPage', component: ContactPageComponent },
+  { path: 'LoginPage', component: LoginPageComponent },
+
+  {
+    path: 'DefaultLayout',
+    component: DefaultLayoutComponent,
+    children: [
+      { path: 'admin/dashboard', component: DashboardComponent },
+      { path: 'admin/project', component: ProjectComponent },
+      { path: 'admin/room', component: RoomComponent },
+      { path: 'admin/task', component: TaskComponent },
+      { path: 'admin/ticket', component: TicketComponent },
+    ],
+  },
+
 ];
 
 @NgModule({
