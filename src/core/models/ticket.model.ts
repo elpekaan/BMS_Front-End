@@ -3,7 +3,7 @@ export class Ticket {
     userId: number = 0;
     roomId: number = 0;
     ticketContent: string = '';
-    ticketStatus: TicketStatus = 0;
+    ticketStatus: TicketStatus =0;
 }
 
 export enum TicketStatus {
