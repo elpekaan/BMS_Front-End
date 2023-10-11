@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
+
+import { FormsModule } from '@angular/forms';
+
 import { AppComponent } from './app.component';
 import { DefaultLayoutComponent } from './containers/default-layout/default-layout.component';
 import { DefaultSidebarComponent } from './containers/default-layout/default-sidebar/default-sidebar.component';
@@ -16,6 +19,7 @@ import { ContactPageComponent } from './containers/default-welcome-page/contact-
 
 
 import { AuthModule } from './modules/auth/auth.module'; 
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,9 @@ import { AuthModule } from './modules/auth/auth.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AuthModule
+    AuthModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
