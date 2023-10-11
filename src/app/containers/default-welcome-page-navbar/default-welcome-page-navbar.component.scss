@@ -3,35 +3,37 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    padding: 20px 100px;
+    padding: 10px 100px; // Yüksekliği düşürülen kısım
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 99;
+    background-color: #008080; // Teal rengi
+    margin-bottom: 10px;
 }
 
 .logo {
-    font-size: 2em;
+    font-size: 1.5em; // Daha küçük bir logo fontu
     color: #fff;
     user-select: none;
 }
 
 .navigation a {
     position: relative;
-    font-size: 1.1em;
+    font-size: 1em; // Daha küçük bir font
     color: #fff;
     text-decoration: none;
     font-weight: 500;
-    margin-left: 40px;
+    margin-left: 20px; // Aralığı küçültülen kısım
 }
 
 .navigation a::after {
     content: '';
     position: absolute;
     left: 0;
-    bottom: -6px;
+    bottom: -3px; // Alt boşluk azaltılan kısım
     width: 100%;
-    height: 3px;
+    height: 2px; // Çizginin yüksekliği azaltılan kısım
     background: #fff;
     border-radius: 5px;
     transform: scaleX(0);
@@ -40,5 +42,4 @@ header {
 
 .navigation a:hover::after {
     transform: scaleX(1);
-
 }

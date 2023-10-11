@@ -1,39 +1,35 @@
-body {
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: url("../../.././/../assets/img/background.jpg") no-repeat;
-    background-size: cover;
-    padding: 40px;
-}
+$primary-color: #008080;
 
-.text {
-    position: relative;
-    background: transparent;
-    border: 2px solid #fff;
-    border-radius: 20px;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
-    justify-content: center;
-    align-items: center;
-}
+.banner {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  overflow: hidden;
 
-h1 {
-    padding-top: 70px;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     text-align: center;
-    color: #fff;
-    font-size: 50px;
-}
+    color: white; // Metin rengi beyaz
+    background-color: #008080; // Zemin rengi
 
-h2 {
-    text-align: center;
-    color: #fff;
-    padding-bottom: 20px;
-    font-size: 30px;
-}
-
-p {
-    padding: 40px;
-    color: #fff;
-    line-height: 30px;
+    .text-container {
+        // ... diğer stil özellikleri
+        h1 {
+          font-size: 2em; // Düşürülecek değer
+          margin-bottom: 20px;
+        }
+      
+        p {
+          font-size: 1em; // Düşürülecek değer
+        }
+      }
+  }
 }
