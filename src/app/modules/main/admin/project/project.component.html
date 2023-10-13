@@ -1,1 +1,24 @@
-<p>project works!</p>
+<table class="table">
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>User ID</th>
+          <th>Room ID</th>
+          <th>Project Tıtle</th>
+          <th>Project Description</th>
+          <th>Project Status</th>
+          <th>Project Deadline</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let project of projects">
+          <td>{{ project.id }}</td>
+          <td>{{ project.userId }}</td>
+          <td>{{ project.roomId }}</td>
+          <td>{{ project.project_Title }}</td>
+          <td>{{ project.project_Description }}</td>
+          <td>{{ project.project_Status }}</td>
+          <td>{{ project.project_Deadline }}</td>
+      </tr>
+  </tbody>
+</table>
