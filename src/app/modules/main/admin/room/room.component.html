@@ -1,0 +1,20 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>User ID</th>
+            <th>Room Name</th>
+            <th>Projects</th>
+            <th>Tickets</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let room of rooms">
+            <td>{{ room.id }}</td>
+            <td>{{ room.userId }}</td>
+            <td>{{ room.room_Name }}</td>
+            <td>{{ room.projects }}</td>
+            <td>{{ room.tickets }}</td>
+        </tr>
+    </tbody>
+</table>

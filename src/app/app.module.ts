@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { FormsModule } from '@angular/forms';
@@ -19,12 +20,11 @@ import { ContactPageComponent } from './containers/default-welcome-page/contact-
 import { CardModule } from 'primeng/card';
 
 
-
-
 import { AuthModule } from './modules/auth/auth.module'; 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DefaultWelcomePageFooterComponent } from './containers/default-welcome-page-footer/default-welcome-page-footer.component';
 import { TeamPageComponent } from './containers/default-welcome-page/team-page/team-page.component';
+import { MainModule } from './modules/main/main.module';
 
 @NgModule({
   declarations: [
@@ -44,6 +44,7 @@ import { TeamPageComponent } from './containers/default-welcome-page/team-page/t
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     AuthModule,
     FormsModule,
@@ -51,7 +52,8 @@ import { TeamPageComponent } from './containers/default-welcome-page/team-page/t
     SplitterModule,
     DividerModule,
     ScrollPanelModule,
-    CardModule
+    CardModule,
+    MainModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

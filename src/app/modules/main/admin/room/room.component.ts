@@ -16,9 +16,9 @@ export class RoomComponent implements OnInit{
   ngOnInit() {
     this.apiService
       .getAllEntities(Room)
-      .subscribe((result) => {
-        this.rooms = result.data; 
-        console.log(result.data);
+      .subscribe((response) => {
+        this.rooms = response.data; 
+        console.log(this.rooms);
       });
   }
 }
