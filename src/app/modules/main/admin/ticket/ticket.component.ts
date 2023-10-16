@@ -1,23 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ApiService } from 'src/core/services/api/api.service';
 import { Ticket } from 'src/core/models/ticket.model';
+import { User } from 'src/core/models/user.model';
+import { Room } from 'src/core/models/room.model';
+
 @Component({
   selector: 'app-ticket',
   templateUrl: './ticket.component.html',
   styleUrls: ['./ticket.component.scss']
 })
-export class TicketComponent implements OnInit {
+export class TicketComponent {
 
   constructor(private apiService: ApiService) {}
 
   tickets: Ticket[] = [];
+  users: User[] = [];
+  rooms: Room[] = [];
 
   ngOnInit() {
-    this.apiService
-      .getAllEntities(Ticket)
-      .subscribe((result) => {
-        this.tickets = result.data;
-        console.log(result.data);
+    // Görevleri ve kullanıcıları çek
+    this.apiService.getAllEntities(Ticket).subscribe((ticketResult) => {
+      this.tickets = ticketResult.data;
+        this.apiService.getAllEntities(User).subscribe((userResult) => {
+          this.users = userResult.data;
+          this.apiService.getAllEntities(Room).subscribe((roomResult)=>{
+            this.rooms = roomResult.data;
+          })
       });
+    });
   }
+  getStatusStringForTask(task: Ticket): string {
+    switch (task.ticket_Status) {
+      case 0:
+        return 'Not Started';
+      case 1 :
+        return 'In Progress';
+      case 2:
+        return 'Completed';
+      default:
+        return 'Unknown';
+    }
+  }
+  findUserName(userId: number): string {
+    const user = this.users.find((user) => user.id === userId);
+    return user ? user.fullName : ''; // Kullanıcı adını göster veya boş bir dize döndür
+  }
+  findRoomName(roomId: number): string {
+    const room = this.rooms.find((room) => room.id === roomId);
+    return room ? room.room_Name : ''; // Kullanıcı adını göster veya boş bir dize döndür
+  }
+
 }
