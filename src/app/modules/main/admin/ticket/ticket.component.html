@@ -32,12 +32,13 @@
                 </span>
                 {{ findUserName(ticket.userId) }}
               </td>
-              <td class="text-muted col-2">{{ findUserName(ticket.userId) }}</td>
               <td class="text-muted col-2">{{ findRoomName(ticket.roomId) }}</td>
+              <td class="text-muted col-2">{{ticket.ticket_Content}}</td>
 
               <td class="text-end col-2">
                 <span class="badge text-bg-success rounded-pill"> {{getStatusStringForTask(ticket)}}</span>
               </td>
+
               <td class="text-end col-2">
                 <a href="#" class="update-link"><i class="pi pi-file-edit update-icon"></i> </a>
                 <br>
@@ -51,23 +52,55 @@
   </div>
 </div>
 
+
 <!-- Task Add Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <form class="modal-content" novalidate>
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Ticket</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        ...
+      <div class="modal-body row">
+        <div class="col-md-6">
+          <label for="projectUser" class="form-label">Ticket's User</label>
+          <select class="form-select" id="projectUser" required>
+            <option value="" disabled selected>Seçiniz</option>
+            <option value="User1">User 1</option>
+          </select>
+          <div class="invalid-feedback">
+            Lütfen bir seçenek seçin.
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label for="taskTitle" class="form-label">Ticket Title</label>
+          <input type="text" class="form-control" id="taskTitle" required>
+          <div class="invalid-feedback">
+            Lütfen bir başlık girin.
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label for="taskStatus" class="form-label">Ticket Status</label>
+          <select class="form-select" id="taskStatus" required>
+            <option value="" disabled selected>Seçiniz</option>
+            <option value="enum1">Enum 1</option>
+            <option value="enum2">Enum 2</option>
+            <option value="enum3">Enum 3</option>
+          </select>
+          <div class="invalid-feedback">
+            Lütfen bir durum seçin.
+          </div>
+        </div>
+        <div class="col-md-12">
+          <label for="taskDetail" class="form-label">Ticket Details</label>
+          <textarea class="form-control" id="taskDetail" rows="3"></textarea>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
+        <button type="submit" class="btn btn-primary">Save</button>
       </div>
-    </div>
+    </form>
   </div>
 </div>
-<!-- Task Add Modal End -->

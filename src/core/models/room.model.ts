@@ -3,8 +3,7 @@ import { Ticket } from "./ticket.model";
 
 export class Room {
     id: number = 0;
-    userId: number = 0;
-    room_Name: string = "";
     projects: Project[] = [];
-    tickets: Ticket[] = [];
+    room_Name: string = ""; //    roomId: number = 0; olmalı
+    userId: number = 0;
 }

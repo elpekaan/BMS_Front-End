@@ -18,7 +18,6 @@ export class TaskComponent implements OnInit {
     // Görevleri ve kullanıcıları çek
     this.apiService.getAllEntities(MyTask).subscribe((taskResult) => {
       this.myTasks = taskResult.data;
-
       this.apiService.getAllEntities(User).subscribe((userResult) => {
         this.users = userResult.data;
       });

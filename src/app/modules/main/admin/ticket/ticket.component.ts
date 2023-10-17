@@ -29,6 +29,14 @@ export class TicketComponent {
       });
     });
   }
+  findUserName(userId: number): string {
+    const user = this.users.find((user) => user.id === userId);
+    return user ? user.fullName : ''; // Kullanıcı adını göster veya boş bir dize döndür
+  }
+  findRoomName(roomId: number): string {
+    const room = this.rooms.find((room) => room.id === roomId);
+    return room ? room.room_Name : ''; // Kullanıcı adını göster veya boş bir dize döndür
+  }
   getStatusStringForTask(task: Ticket): string {
     switch (task.ticket_Status) {
       case 0:
@@ -41,13 +49,4 @@ export class TicketComponent {
         return 'Unknown';
     }
   }
-  findUserName(userId: number): string {
-    const user = this.users.find((user) => user.id === userId);
-    return user ? user.fullName : ''; // Kullanıcı adını göster veya boş bir dize döndür
-  }
-  findRoomName(roomId: number): string {
-    const room = this.rooms.find((room) => room.id === roomId);
-    return room ? room.room_Name : ''; // Kullanıcı adını göster veya boş bir dize döndür
-  }
-
 }
