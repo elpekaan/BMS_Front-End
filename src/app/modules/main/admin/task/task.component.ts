@@ -23,6 +23,12 @@ export class TaskComponent implements OnInit {
       });
     });
   }
+    // Kullanıcı adını kullanıcı kimliği ile bul
+    findUserName(userId: number): string {
+      const user = this.users.find((user) => user.id === userId);
+      return user ? user.fullName : ''; // Kullanıcı adını göster veya boş bir dize döndür
+    }
+
 
 //status durumu ayarla
   getStatusStringForTask(task: MyTask): string {
@@ -36,10 +42,5 @@ export class TaskComponent implements OnInit {
       default:
         return 'Unknown';
     }
-  }
-  // Kullanıcı adını kullanıcı kimliği ile bul
-  findUserName(userId: number): string {
-    const user = this.users.find((user) => user.id === userId);
-    return user ? user.fullName : ''; // Kullanıcı adını göster veya boş bir dize döndür
   }
 }

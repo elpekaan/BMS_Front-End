@@ -17,17 +17,37 @@ export class RoomComponent implements OnInit{
   rooms: Room[] = [];
   tickets : Ticket[] = [];
   projects: Project[] = [];
+  users: User[] = [];
 
   ngOnInit() {
-    // Görevleri ve kullanıcıları çek
     this.apiService.getAllEntities(Room).subscribe((roomResult) => {
       this.rooms = roomResult.data;
-        this.apiService.getAllEntities(Ticket).subscribe((userResult) => {
-          this.tickets = userResult.data;
+      console.log(roomResult.data)
+
             this.apiService.getAllEntities(Project).subscribe((projectResult)=>{
               this.projects = projectResult.data;
+      console.log(projectResult.data)
+                this.apiService.getAllEntities(User).subscribe((userResult) =>{
+                  this.users = userResult.data;
+      console.log(userResult.data)
+                })
           })
-      });
-    });
+        })
+    }
+    findRoomName(room_Name: string):string{
+      const room = this.rooms.find((room)=> room_Name == room_Name);
+      return room ? room.room_Name: '';
+    }
+
+    findRoomProject(roomProjectId: number): string {
+      const project = this.projects.find((project) => roomProjectId === project.roomId);
+      return project ? project.roomId.toString() : '';
+    }
+
+
+    findUserName(userId: number): string {
+      const user = this.users.find((user) => user.id === userId);
+      return user ? user.fullName : ''; // Kullanıcı adını göster veya boş bir dize döndür
+    }
+
   }
-}
