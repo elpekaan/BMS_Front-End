@@ -1,5 +1,5 @@
 export interface RegisterRequest {
-    tcNo: string;
+    tc_no: string;
     fullName: string;
     userName: string;
     email: string;

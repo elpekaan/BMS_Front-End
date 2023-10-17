@@ -1,9 +1,9 @@
 import { MyTaskStatus } from "../mytask.model";
 
-export interface MyTask {
+export interface MyTaskRequest {
     userId: number;
-    mytaskTitle: string;
-    mytaskDescription: string;
-    mytaskDeadline: Date;
-    mytaskStatus: MyTaskStatus;
+    mytask_Title: string;
+    mytask_Description: string;
+    mytask_DeadLine: Date;
+    mytask_Status: MyTaskStatus;
 }

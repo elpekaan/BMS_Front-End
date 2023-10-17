@@ -1,4 +1,4 @@
 export interface RoomRequest {
-    roomName: string;
+    room_Name: string;
     userId: number;
 }

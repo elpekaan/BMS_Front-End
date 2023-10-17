@@ -59,8 +59,6 @@ export class ProjectComponent implements OnInit{
       console.log(response);
     })
   }
-
-
   refresh() {
     this.apiService.getAllEntities(Project).subscribe((response) => {
       this.projects = response.data;

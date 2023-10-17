@@ -1,8 +1,8 @@
 import { TicketStatus } from "../ticket.model";
 
 export interface TicketRequest {
-    ticketContent: string;
+    ticket_Content: string;
     roomId: number;
     userId: number;
-    ticketStatus: TicketStatus;
+    ticket_Status: TicketStatus;
 }

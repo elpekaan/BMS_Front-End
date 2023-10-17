@@ -1,6 +1,6 @@
 export class User {
     id: number = 0;
-    tcNo: string = ''; 
+    tc_no: string = '';
     email: string = '';
     phone: string = '';
     userName: string = '';
