@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/core/services/api/api.service';
 import { MyTask } from 'src/core/models/mytask.model';
 import { User } from 'src/core/models/user.model';
-
+import { ResponseStatus } from 'src/core/models/response/base-response.model';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.scss']
 })
 export class TaskComponent implements OnInit {
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService,private router:Router) {}
 
   myTasks: MyTask[] = [];
   users: User[] = [];
@@ -42,5 +43,18 @@ export class TaskComponent implements OnInit {
       default:
         return 'Unknown';
     }
+  }
+  deleteTaskId(id: number) {
+    this.apiService.deleteEntity(id,MyTask).then(response => {
+      if (response?.status == ResponseStatus.Ok) {      }
+      console.log(response);
+      this.refresh();
+    })
+  }
+  refresh() {
+    this.apiService.getAllEntities(MyTask).subscribe((response) => {
+      this.myTasks = response.data;
+      console.log(this.myTasks)
+    });
   }
 }

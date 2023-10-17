@@ -34,7 +34,7 @@ export class ApiService {
       );
   }
 
-  
+
   //Düzenleme
 
   register(
@@ -70,13 +70,13 @@ export class ApiService {
 
   deleteEntity<TEntity>(id: number, entityType: Type<TEntity>) {
     return this.http.delete<BaseResponse>
-      (environment.api_url + "/" + entityType.name + "/Delete?id=" + id)
-      .pipe(share()).toPromise();
+    (environment.api_url + "/" + entityType.name + "/Delete/" + id)
+    .pipe(share()).toPromise();
   }
 
   updateEntity<TEntity>(id: number, newEntity: TEntity, entityType: Type<TEntity>) {
     return this.http.put<BaseDataResponse<TEntity[]>>
-      (environment.api_url + "/" + entityType.name + "/Update?id=" + id, newEntity)
+      (environment.api_url + "/" + entityType.name + "/Update/" + id, newEntity)
       .pipe(share()).toPromise();
   }
 

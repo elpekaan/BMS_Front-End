@@ -3,6 +3,8 @@ import { ApiService } from 'src/core/services/api/api.service';
 import { Ticket } from 'src/core/models/ticket.model';
 import { User } from 'src/core/models/user.model';
 import { Room } from 'src/core/models/room.model';
+import { ResponseStatus } from 'src/core/models/response/base-response.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ticket',
@@ -11,7 +13,7 @@ import { Room } from 'src/core/models/room.model';
 })
 export class TicketComponent {
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService,private router:Router) {}
 
   tickets: Ticket[] = [];
   users: User[] = [];
@@ -48,5 +50,18 @@ export class TicketComponent {
       default:
         return 'Unknown';
     }
+  }
+  deleteTicketId(id: number) {
+    this.apiService.deleteEntity(id,Ticket).then(response => {
+      if (response?.status == ResponseStatus.Ok) {      }
+      console.log(response);
+      this.refresh();
+    })
+  }
+  refresh() {
+    this.apiService.getAllEntities(Ticket).subscribe((response) => {
+      this.tickets = response.data;
+      console.log(this.tickets)
+    });
   }
 }

@@ -6,8 +6,7 @@ import { RoomComponent } from './room/room.component';
 import { TicketComponent } from './ticket/ticket.component';
 import { TaskComponent } from './task/task.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-
-
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,11 +14,12 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     RoomComponent,
     TicketComponent,
     TaskComponent,
-    DashboardComponent
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
-    CommonModule
+    CommonModule,
+    FormsModule
   ]
 })
 export class AdminModule { }

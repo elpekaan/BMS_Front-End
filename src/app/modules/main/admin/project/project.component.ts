@@ -3,7 +3,8 @@ import { ApiService } from 'src/core/services/api/api.service';
 import { Project } from 'src/core/models/project.model';
 import { User } from 'src/core/models/user.model';
 import { Room } from 'src/core/models/room.model';
-
+import { ResponseStatus } from 'src/core/models/response/base-response.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project',
@@ -12,7 +13,7 @@ import { Room } from 'src/core/models/room.model';
 })
 export class ProjectComponent implements OnInit{
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private router:Router) {}
 
   projects: Project[] = [];
   users : User[] = [];
@@ -21,15 +22,17 @@ export class ProjectComponent implements OnInit{
   ngOnInit() {
     // Görevleri ve kullanıcıları çek
     this.apiService.getAllEntities(Project).subscribe((projectResult) => {
-      this.projects = projectResult.data;
-        this.apiService.getAllEntities(User).subscribe((userResult) => {
-          this.users = userResult.data;
-            this.apiService.getAllEntities(Room).subscribe((roomResult)=>{
-              this.rooms = roomResult.data;
-          })
-      });
+      this.projects = projectResult.data
     });
+    this.apiService.getAllEntities(User).subscribe((userResult) => {
+      this.users = userResult.data;
+    });
+    this.apiService.getAllEntities(Room).subscribe((roomResult)=>{
+    this.rooms = roomResult.data;
+    })
+    this.refresh();
   }
+
   findUserName(userId: number): string {
     const user = this.users.find((user) => user.id === userId);
     return user ? user.fullName : ''; // Kullanıcı adını göster veya boş bir dize döndür
@@ -49,5 +52,19 @@ export class ProjectComponent implements OnInit{
       default:
         return 'Unknown';
     }
+  }
+  deleteProjectId(id: number) {
+    this.apiService.deleteEntity(id,Project).then(response => {
+      if (response?.status == ResponseStatus.Ok) {}
+      console.log(response);
+    })
+  }
+
+
+  refresh() {
+    this.apiService.getAllEntities(Project).subscribe((response) => {
+      this.projects = response.data;
+      console.log(this.projects)
+    });
   }
 }

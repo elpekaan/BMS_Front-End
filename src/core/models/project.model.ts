@@ -4,7 +4,6 @@ export class Project {
     project_Description: string = '';
     project_DeadLine: Date = new Date();
     project_Status: ProjectStatus = 0;
-
     userId: number = 0;
     roomId: number = 0;
 }
