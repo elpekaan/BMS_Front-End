@@ -43,12 +43,14 @@ export class RoomComponent implements OnInit{
     }
     findUserName(userId: number): string {
       const user = this.users.find((user) => user.id === userId);
-      return user ? user.fullName : ''; // Kullanıcı adını göster veya boş bir dize döndür
+      return user ? user.fullName : '';
     }
-    deleteRoomName(room_Name: number) {
-      this.apiService.deleteEntity(room_Name,Room).then(response => {
-        if (response?.status == ResponseStatus.Ok) {      }
-        console.log(response);
+    deleteRoomId(id: number) {
+      this.apiService.deleteEntity(id, Room).then(response => {
+        if (response?.status == ResponseStatus.Ok) {
+          this.refresh();
+        }
+        console.log(id+"");
       })
     }
     refresh() {

@@ -18,9 +18,9 @@ import { LoginPageComponent } from './containers/default-welcome-page/login-page
 import { DefaultWelcomePageNavbarComponent } from './containers/default-welcome-page-navbar/default-welcome-page-navbar.component';
 import { ContactPageComponent } from './containers/default-welcome-page/contact-page/contact-page.component';
 import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
 
-
-import { AuthModule } from './modules/auth/auth.module'; 
+import { AuthModule } from './modules/auth/auth.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DefaultWelcomePageFooterComponent } from './containers/default-welcome-page-footer/default-welcome-page-footer.component';
 import { TeamPageComponent } from './containers/default-welcome-page/team-page/team-page.component';
@@ -29,7 +29,7 @@ import { MainModule } from './modules/main/main.module';
 @NgModule({
   declarations: [
     AppComponent,
-    DefaultLayoutComponent,    
+    DefaultLayoutComponent,
     DefaultSidebarComponent,
     ContentTopbarComponent,
     ContentFooterComponent,
@@ -54,6 +54,7 @@ import { MainModule } from './modules/main/main.module';
     ScrollPanelModule,
     CardModule,
     MainModule,
+    InputTextModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

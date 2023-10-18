@@ -6,26 +6,27 @@
     </header>
     <div class="wrapper">
         <div class="form-box login">
-            <h2>Giriş Yap</h2>
+            <h2>Enter the Portal</h2>
             <form action="#">
                 <div class="input-box">
                     <span class="icon"></span>
-                    <input [(ngModel)]="loginRequest.userName" [ngModelOptions]="{standalone: true}" name="email" type="text"
-                    class="form-control" placeholder="Email">
-                    <label>Kullanıcı Adı</label>
+                    <input [(ngModel)]="loginRequest.userName" [ngModelOptions]="{standalone: true}" name="Username" type="text"
+                    class="form-control" placeholder="Username">
                 </div>
                 <div class="input-box">
                     <span class="icon"></span>
                     <input [(ngModel)]="loginRequest.password" [ngModelOptions]="{standalone: true}" name="Password"
-                    type="password" class="form-control" placeholder="Şifre"><input type="text"  required>
-                    <label>Şifre</label>
+                    type="password" class="form-control" placeholder="Password">
                 </div>
-                <!-- <div class="remember-forgot">
-                    <label><input type="checkbox">Beni Hatırla</label>
-                    <a href="#">Şifremi Unuttum</a>
-                </div> -->
-                <button type="submit" class="btn" (click)="login()">Giriş Yap</button>
+                 <div class="remember-forgot">
+                    <label><input type="checkbox">Remember Me</label>
+                    <button type="submit" class="btn" (click)="login()">Login</button>
+                </div>
             </form>
         </div>
     </div>
 </body>
+
+
+
+

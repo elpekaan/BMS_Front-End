@@ -20,17 +20,17 @@ export class TicketComponent {
   rooms: Room[] = [];
 
   ngOnInit() {
-    // Görevleri ve kullanıcıları çek
     this.apiService.getAllEntities(Ticket).subscribe((ticketResult) => {
       this.tickets = ticketResult.data;
-        this.apiService.getAllEntities(User).subscribe((userResult) => {
-          this.users = userResult.data;
-          this.apiService.getAllEntities(Room).subscribe((roomResult)=>{
-            this.rooms = roomResult.data;
-          })
-      });
     });
+    this.apiService.getAllEntities(User).subscribe((userResult) => {
+      this.users = userResult.data;
+    });
+    this.apiService.getAllEntities(Room).subscribe((roomResult)=>{
+      this.rooms = roomResult.data;
+    })
   }
+
   findUserName(userId: number): string {
     const user = this.users.find((user) => user.id === userId);
     return user ? user.fullName : ''; // Kullanıcı adını göster veya boş bir dize döndür
