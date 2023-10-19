@@ -57,7 +57,7 @@ export class ApiService {
 
   getEntityById<TEntity>(id: number, entityType: Type<TEntity>) {
     return this.http.get<BaseDataResponse<TEntity>>
-    (`${environment.api_url}/${entityType.name}/GetById?id=${id}`)
+    (`${environment.api_url}/${entityType.name}/GetById/${id}`)
     .pipe(share()).toPromise();
   }
 

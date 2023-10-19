@@ -19,7 +19,6 @@ import { DefaultWelcomePageNavbarComponent } from './containers/default-welcome-
 import { ContactPageComponent } from './containers/default-welcome-page/contact-page/contact-page.component';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
-
 import { AuthModule } from './modules/auth/auth.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DefaultWelcomePageFooterComponent } from './containers/default-welcome-page-footer/default-welcome-page-footer.component';

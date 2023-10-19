@@ -38,9 +38,11 @@
                 <span class="badge text-bg-success rounded-pill"> {{getStatusStringForTask(task)}}</span>
               </td>
               <td class="text-end col-2">
-                <a href="#" class="update-link"><i class="pi pi-file-edit update-icon"></i> </a>
+                <a  class="update-link"  data-bs-toggle="modal" data-bs-target="#taskUpdate"  (click)="openEditDialog(task.id)" ><i class="pi pi-file-edit update-icon"></i> </a>
+                
                 <br>
-                <a href="/DefaultLayout/admin/task" class="delete-link" (click)="deleteTaskId(task.id)"><i class="pi pi-trash delete-icon"></i> </a>
+                <a href="/DefaultLayout/admin/task" class="delete-link" (click)="deleteTaskId(task.id)"><i
+                    class="pi pi-trash delete-icon"></i> </a>
               </td>
             </tr>
           </tbody>
@@ -52,7 +54,8 @@
 
 
 <!-- Task Add Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form class="modal-content" novalidate>
       <div class="modal-header">
@@ -61,45 +64,44 @@
       </div>
       <div class="modal-body row">
         <div class="col-md-6">
-          <label for="projectUser" class="form-label">Taks's User</label>
-          <select class="form-select" id="projectUser" required>
+          <label for="projectUser" class="form-label">Task's User</label>
+          <select [(ngModel)]="taskRequest.userId" [ngModelOptions]="{ standalone: true }" class="form-select" id="projectUser" required>
             <option value="" disabled selected>Seçiniz</option>
-            <option value="User1">User 1</option>
+            <ng-container *ngFor="let user of getDeveloperUsers()">
+              <option [value]="user.id">{{ user.fullName }}</option>
+            </ng-container>
           </select>
           <div class="invalid-feedback">
             Lütfen bir seçenek seçin.
           </div>
         </div>
+        
         <div class="col-md-6">
           <label for="taskTitle" class="form-label">Task Title</label>
-          <input type="text" class="form-control" id="taskTitle" required>
-          <div class="invalid-feedback">
-            Enter your room's name.
-          </div>
-        </div>
-        <div class="col-md-6">
-          <label for="taskTitle" class="form-label">Task Description</label>
-          <input type="text" class="form-control" id="taskTitle" required>
-          <div class="invalid-feedback">
-            Enter your room's name.
-          </div>
-        </div>
-        <div class="col-md-6">
-          <label for="taskTitle" class="form-label">Task Created Date</label>
-          <input type="text" class="form-control" id="taskTitle" required>
+          <input [(ngModel)]="taskRequest.myTask_Title" [ngModelOptions]="{standalone: true}" type="text"
+            class="form-control" id="taskTitle" required>
           <div class="invalid-feedback">
             Enter your room's name.
           </div>
         </div>
 
+        <div class="col-md-6">
+          <label for="taskDeadline" class="form-label">Task Deadline</label>
+          <input [(ngModel)]="taskRequest.myTask_DeadLine" [ngModelOptions]="{ standalone: true}" type="date" class="form-control" id="taskDeadline" required>
+          <div class="invalid-feedback">
+            Enter the task deadline.
+          </div>
+        </div>
+        
 
         <div class="col-md-6">
           <label for="taskStatus" class="form-label">Taks's Status</label>
-          <select class="form-select" id="taskStatus" required>
+          <select [(ngModel)]="taskRequest.myTask_Status" [ngModelOptions]="{standalone: true}" class="form-select"
+            id="taskStatus" required>
             <option value="" disabled selected>Seçiniz</option>
-            <option value="enum1">In Progress </option>
-            <option value="enum2">Waiting </option>
-            <option value="enum3">See you soon</option>
+            <option [ngValue]=0>Not Started</option>
+            <option [ngValue]=1>In Progress</option>
+            <option [ngValue]=2>Completed</option>
           </select>
           <div class="invalid-feedback">
             Select your status.
@@ -107,14 +109,82 @@
         </div>
         <div class="col-md-12">
           <label for="taskDetail" class="form-label">Task Details</label>
-          <textarea class="form-control" id="taskDetail" rows="3"></textarea>
+          <textarea [(ngModel)]="taskRequest.myTask_Description" [ngModelOptions]="{standalone: true}"
+            class="form-control" id="taskDetail" rows="3"></textarea>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button class="btn btn-primary" (click)="onCreate(taskRequest)">Save</button>
       </div>
     </form>
   </div>
 </div>
 
+<!-- Task Update Modal -->
+<div    class="modal fade"  id="taskUpdate" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" novalidate *ngIf="taskToEdit" >
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Update Tasks</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body row" >
+        <div class="col-md-6">
+          <label for="projectUser" class="form-label">Task's User</label>
+          <select [(ngModel)]="taskToEdit.userId" [ngModelOptions]="{ standalone: true }" class="form-select" id="projectUser" required>
+            <option value="" disabled selected>Seçiniz</option>
+            <ng-container *ngFor="let user of getDeveloperUsers()">
+              <option [value]="user.id">{{ user.fullName }}</option>
+            </ng-container>
+          </select>
+          <div class="invalid-feedback">
+            Lütfen bir seçenek seçin.
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <label for="taskTitle" class="form-label">Task Title</label>
+          <input [(ngModel)]="taskToEdit.myTask_Title" [ngModelOptions]="{standalone: true}" type="text"
+            class="form-control" id="taskTitle" required>
+          <div class="invalid-feedback">
+            Enter your room's name.
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label for="taskDeadline" class="form-label">Task Deadline</label>
+          <input [(ngModel)]="taskToEdit.myTask_DeadLine" [ngModelOptions]="{ standalone: true}" type="date" class="form-control" id="taskDeadline" required>
+          <div class="invalid-feedback">
+            Enter the task deadline.
+          </div>
+        </div>
+        
+
+        <div class="col-md-6">
+          <label for="taskStatus" class="form-label">Taks's Status</label>
+          <select [(ngModel)]="taskToEdit.myTask_Status" [ngModelOptions]="{standalone: true}" class="form-select"
+            id="taskStatus" required>
+            <option value="" disabled selected>Seçiniz</option>
+            <option [ngValue]=0>Not Started</option>
+            <option [ngValue]=1>In Progress</option>
+            <option [ngValue]=2>Completed</option>
+          </select>
+          <div class="invalid-feedback">
+            Select your status.
+          </div>
+        </div>
+        <div class="col-md-12">
+          <label for="taskDetail" class="form-label">Task Details</label>
+          <textarea [(ngModel)]="taskToEdit.myTask_Description" [ngModelOptions]="{standalone: true}"
+            class="form-control" id="taskDetail" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-primary" type="submit" (click)="onUpdate(taskToEdit.id,taskToEdit)">Update</button>
+      </div>
+    </form>
+  </div>
+</div>
