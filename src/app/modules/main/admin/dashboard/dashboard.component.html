@@ -9,7 +9,9 @@
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                             Tasks</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ totalTaskCount }}
+                        </div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -27,7 +29,9 @@
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                             Rooms</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ totalRoomCount }}
+                        </div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -43,13 +47,13 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Projects
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Projects
                         </div>
                         <div class="row no-gutters align-items-center">
-                            <div class="col-auto">
-                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">0</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{ totalProjectCount }}
                             </div>
-                            
                         </div>
                     </div>
                     <div class="col-auto">
@@ -68,7 +72,9 @@
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                             Tickets</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ totalTicketCount }}
+                        </div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -80,3 +86,50 @@
 </div>
 
 <!-- Content Row -->
+
+<div class="container">
+    <h2>Kullanıcı Ekle</h2>
+    <form (ngSubmit)="registerUser()" #myForm="ngForm">
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="tc_no">TC:</label>
+                <input [(ngModel)]="formData.tc_no" type="text" id="tc_no" class="form-control" name="tc_no" required maxlength="11" minlength="11">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="fullName">İsim:</label>
+                <input [(ngModel)]="formData.fullName" type="text" id="fullName" class="form-control" name="fullName" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="userName">Kullanıcı Adı:</label>
+                <input [(ngModel)]="formData.userName" type="text" id="userName" class="form-control" name="userName" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="email">Email:</label>
+                <input [(ngModel)]="formData.email" type="email" id="email" class="form-control" name="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="phone">Telefon:</label>
+                <input [(ngModel)]="formData.phone" type="text" id="phone" class="form-control" name="phone" required maxlength="11">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="password">Şifre:</label>
+                <input [(ngModel)]="formData.password" type="text" id="password" class="form-control" name="password" required minlength="8">
+            </div>
+            <div class="form-group col">
+                <label for="role">Rol Seçiniz:</label>
+                <select [(ngModel)]="formData.role"  id="role" class="form-control" name="role" required>
+                    <option *ngFor="let option of options" [value]="option">{{ option }}</option>
+                </select>                
+            </div>
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+    </form>
+    <div *ngIf="registrationSuccess" class="alert alert-success" role="alert">
+        Başarıyla kayıt gerçekleştirildi.
+    </div>
+</div>

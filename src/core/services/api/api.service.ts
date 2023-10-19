@@ -3,8 +3,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable, map, share } from 'rxjs';
 
-//import { environment } from '../../../../src/environments/environment.development';
-//import { environment } from '../../../environments/environment';
 import { environment } from 'src/environments/environment';
 import { BaseDataResponse } from '../../models/response/base-data-response.model';
 import { TokenResponse } from '../../models/response/token-response.model';
@@ -34,9 +32,6 @@ export class ApiService {
       );
   }
 
-
-  //Düzenleme
-
   register(
     request: RegisterRequest
   ): Observable<BaseDataResponse<TokenResponse>> {
@@ -53,14 +48,11 @@ export class ApiService {
       );
   }
 
-
-
   getEntityById<TEntity>(id: number, entityType: Type<TEntity>) {
     return this.http.get<BaseDataResponse<TEntity>>
     (`${environment.api_url}/${entityType.name}/GetById/${id}`)
     .pipe(share()).toPromise();
   }
-
 
   createEntity<TEntity>(entity: TEntity, entityType: string) {
     return this.http.post<BaseDataResponse<TEntity[]>>
@@ -93,7 +85,6 @@ export class ApiService {
       );
   }
 
-  //Profil Getir
   getProfileInfo(): Observable<BaseDataResponse<User>> {
     return this.http
       .get<BaseDataResponse<User>>(this.endpoint + '/User/GetAll')
@@ -104,12 +95,9 @@ export class ApiService {
       );
   }
 
-
   getAllEntities<TEntity>(entityType: Type<TEntity>) {
     return this.http.request<BaseDataResponse<TEntity[]>>
       ("get", environment.api_url + "/" + entityType.name + "/GetAll").pipe(share());
   }
-
-
 
 }
