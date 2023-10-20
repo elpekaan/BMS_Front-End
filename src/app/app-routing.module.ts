@@ -11,6 +11,7 @@ import { TaskComponent } from './modules/main/admin/task/task.component';
 import { TicketComponent } from './modules/main/admin/ticket/ticket.component';
 import { DefaultLayoutComponent } from './containers/default-layout/default-layout.component';
 import { TeamPageComponent } from './containers/default-welcome-page/team-page/team-page.component';
+import { DefaultUserProfilePageComponent } from './containers/default-user-profile-page/default-user-profile-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/HomePage', pathMatch: 'full' },
@@ -19,11 +20,11 @@ const routes: Routes = [
   { path: 'ContactPage', component: ContactPageComponent },
   { path: 'TeamPage', component: TeamPageComponent },
   { path: 'LoginPage', component: LoginPageComponent },
-
   {
     path: 'DefaultLayout',
     component: DefaultLayoutComponent,
     children: [
+      { path: 'ProfilePage', component: DefaultUserProfilePageComponent},
       { path: 'admin/dashboard', component: DashboardComponent },
       { path: 'admin/project', component: ProjectComponent },
       { path: 'admin/room', component: RoomComponent },
@@ -31,7 +32,6 @@ const routes: Routes = [
       { path: 'admin/ticket', component: TicketComponent },
     ],
   },
-
 ];
 
 @NgModule({
