@@ -7,6 +7,8 @@ import { TicketComponent } from './ticket/ticket.component';
 import { TaskComponent } from './task/task.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FormsModule } from '@angular/forms';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     CommonModule,
-    FormsModule
-  ]
+    FormsModule,
+    ToastModule
+  ],
+  providers: [MessageService],
 })
 export class AdminModule { }

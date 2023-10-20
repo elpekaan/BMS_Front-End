@@ -7,7 +7,7 @@ export class Ticket {
 }
 
 export enum TicketStatus {
-    NotStarted,
-    InProgress,
-    Completed
+    Opened,
+    Closed
+    
 }

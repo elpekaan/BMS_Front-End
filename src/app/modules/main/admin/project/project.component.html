@@ -6,7 +6,7 @@
         <h2 class="card-header-title h4 text-secondary">
           Projects
           <a class="btn btn-outline-success ml-2 btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Add Projects
+            Add Project
             <i class="pi pi-plus"></i>
           </a>
         </h2>
@@ -32,7 +32,7 @@
               <td class="text-muted col-2">{{ project.project_Description }}</td>
               <td class="text-muted col-2">{{ project.project_DeadLine }}</td>
               <td class="text-muted col-2">
-                <span class="badge text-bg-success rounded-pill"> {{getStatusStringForTask(project)}}</span>
+                <span class="badge text-bg-success rounded-pill"> {{getStatusStringForProject(project)}}</span>
               </td>
               <td class="col-2">
                 <span class="avatar avatar-xs me-1">
@@ -42,10 +42,10 @@
               </td>
               <td class="text-muted col-3">{{ findRoomName(project.roomId) }}</td>
               <td class="text-end col-2">
-                <a href="#" class="update-link"><i class="pi pi-file-edit update-icon"></i> </a>
-                <br>
-                <a href="/DefaultLayout/admin/project" class="delete-link"  (click)="deleteProjectId(project.id)"><i class="pi pi-trash delete-icon"></i> </a>
-              </td>
+                <a  class="update-link"  data-bs-toggle="modal" data-bs-target="#ProjectUpdate"  (click)="openEditDialog(project.id)" ><i class="pi pi-file-edit update-icon"></i> </a>                <br>
+                <a href="/DefaultLayout/admin/project" class="delete-link" (click)="deleteProjectId(project.id)"><i
+                  class="pi pi-trash delete-icon"></i> </a>
+                </td>
             </tr>
           </tbody>
         </table>
@@ -54,60 +54,151 @@
   </div>
 </div>
 
-<!-- Task Add Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Project Add Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form class="modal-content" novalidate>
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Project</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Projects</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body row">
         <div class="col-md-6">
-          <label for="projectUser" class="form-label">Project User</label>
-          <select class="form-select" id="projectUser" required>
+          <label for="projectUser" class="form-label">Project's User</label>
+          <select [(ngModel)]="projectRequest.userId" [ngModelOptions]="{ standalone: true }" class="form-select" id="projectUser" required>
             <option value="" disabled selected>Seçiniz</option>
-            <option value="User1">User 1</option>
+            <ng-container *ngFor="let user of getAllRoles()">
+              <option [value]="user.id">{{ user.fullName }}</option>
+            </ng-container>
           </select>
           <div class="invalid-feedback">
             Lütfen bir seçenek seçin.
           </div>
         </div>
+
         <div class="col-md-6">
-          <label for="taskTitle" class="form-label">Project Title</label>
-          <input type="text" class="form-control" id="taskTitle" required>
+          <label for="ProjectTitle" class="form-label">Project Title</label>
+          <input [(ngModel)]="projectRequest.project_Title" [ngModelOptions]="{standalone: true}" type="text"
+            class="form-control" id="ProjectTitle" required>
           <div class="invalid-feedback">
-            Lütfen bir başlık girin.
+            Enter your room's name.
           </div>
         </div>
 
         <div class="col-md-6">
-          <label for="creationDate" class="form-label">Deadline</label>
-          <input type="date" class="form-control" id="creationDate" required>
-          <div class="invalid-feedback">
-            Lütfen bir tarih seçin.
-          </div>
-        </div>
-        <div class="col-md-6">
-          <label for="taskStatus" class="form-label">Status</label>
-          <select class="form-select" id="taskStatus" required>
-            <option value="" disabled selected>Seçiniz</option>
-            <option value="enum1">Enum 1</option>
-            <option value="enum2">Enum 2</option>
-            <option value="enum3">Enum 3</option>
+          <label for="ticketRoom" class="form-label">Tickets's Room</label>
+          <select [(ngModel)]="projectRequest.roomId" [ngModelOptions]="{ standalone: true }" class="form-select"  required>
+            <option value="" disabled selected>Room Select</option>
+            <ng-container *ngFor="let room of roomsProjectRole">
+              <option [value]="room.id">{{ room.room_Name }}</option>
+            </ng-container>
           </select>
           <div class="invalid-feedback">
-            Lütfen bir durum seçin.
+            Lütfen bir seçenek seçin.
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label for="ProjectDeadline" class="form-label">Project Deadline</label>
+          <input [(ngModel)]="projectRequest.project_DeadLine" [ngModelOptions]="{ standalone: true}" type="date" class="form-control" id="ProjectDeadline" required>
+          <div class="invalid-feedback">
+            Enter the Project deadline.
+          </div>
+        </div>
+
+
+        <div class="col-md-6">
+          <label for="ProjectStatus" class="form-label">Project's Status</label>
+          <select [(ngModel)]="projectRequest.project_Status" [ngModelOptions]="{standalone: true}" class="form-select"
+            id="ProjectStatus" required>
+            <option value="" disabled selected>Seçiniz</option>
+            <option [ngValue]=0>Not Started</option>
+            <option [ngValue]=1>In Progress</option>
+            <option [ngValue]=2>Completed</option>
+          </select>
+          <div class="invalid-feedback">
+            Select your status.
           </div>
         </div>
         <div class="col-md-12">
-          <label for="taskDetail" class="form-label">Project Detail</label>
-          <textarea class="form-control" id="taskDetail" rows="3"></textarea>
+          <label for="ProjectDetail" class="form-label">Project Details</label>
+          <textarea [(ngModel)]="projectRequest.project_Description" [ngModelOptions]="{standalone: true}"
+            class="form-control" id="ProjectDetail" rows="3"></textarea>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-        <button type="submit" class="btn btn-primary">Kaydet</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-primary" (click)="onCreate(projectRequest)">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Project Update Modal -->
+<div    class="modal fade"  id="ProjectUpdate" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" novalidate *ngIf="projectToEdit" >
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Update Projects</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+        <div class="modal-body row" >
+          <div class="col-md-6">
+          <label for="projectUser" class="form-label">Project's User</label>
+          <select select [(ngModel)]="projectToEdit.userId" [ngModelOptions]="{ standalone: true }" class="form-select" id="projectUser" required>
+            <option value="" disabled selected>Seçiniz</option>
+            <ng-container *ngFor="let user of getAllRoles()">
+              <option [value]="user.id">{{ user.fullName }}</option>
+            </ng-container>
+          </select>
+          <div class="invalid-feedback">
+            Lütfen bir seçenek seçin.
+          </div>
+        </div>
+
+
+        <div class="col-md-6">
+          <label for="ProjectTitle" class="form-label">Project Title</label>
+          <input [(ngModel)]="projectToEdit.project_Title" [ngModelOptions]="{standalone: true}" type="text"
+            class="form-control" id="ProjectTitle" required>
+          <div class="invalid-feedback">
+            Enter your room's name.
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label for="ProjectDeadline" class="form-label">Project Deadline</label>
+          <input [(ngModel)]="projectToEdit.project_DeadLine" [ngModelOptions]="{ standalone: true}" type="date" class="form-control" id="ProjectDeadline" required>
+          <div class="invalid-feedback">
+            Enter the Project deadline.
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <label for="ProjectStatus" class="form-label">Project's Status</label>
+          <select [(ngModel)]="projectToEdit.project_Status" [ngModelOptions]="{standalone: true}" class="form-select"
+            id="ProjectStatus" required>
+            <option value="" disabled selected>Seçiniz</option>
+            <option [ngValue]=0>Not Started</option>
+            <option [ngValue]=1>In Progress</option>
+            <option [ngValue]=2>Completed</option>
+          </select>
+          <div class="invalid-feedback">
+            Select your status.
+          </div>
+        </div>
+        <div class="col-md-12">
+          <label for="ProjectDetail" class="form-label">Project Details</label>
+          <textarea [(ngModel)]="projectToEdit.project_Description" [ngModelOptions]="{standalone: true}"
+            class="form-control" id="ProjectDetail" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-primary" type="submit" (click)="onUpdate(projectToEdit.id,projectToEdit)">Update</button>
       </div>
     </form>
   </div>

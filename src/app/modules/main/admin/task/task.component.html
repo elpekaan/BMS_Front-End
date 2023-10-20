@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xxl-12 d-flex">
-
+    
     <div class="card border-1 p-1 flex-fill w-100">
       <div class="card-header border-0 card-header-space-between">
         <h2 class="card-header-title h4 text-secondary">
@@ -12,6 +12,7 @@
         </h2>
       </div>
       <div class="table-responsive">
+        <p-toast></p-toast>
         <table id="projectsTable" class="table align-middle table-edge table-nowrap mb-0">
           <thead class="thead-light">
             <tr>
@@ -35,13 +36,18 @@
               <td class="text-muted col-2">{{ task.myTask_Description }}</td>
               <td class="text-muted col-2">{{ task.myTask_DeadLine | date: 'dd/MM/yyyy HH:mm' }}</td>
               <td class="text-end col-2">
-                <span class="badge text-bg-success rounded-pill"> {{getStatusStringForTask(task)}}</span>
+                <span class="badge text-bg-secondary rounded-pill" *ngIf="task.myTask_Status === 0"
+                > {{getStatusStringForTask(task)}}</span>
+                <span class="badge text-bg-warning rounded-pill" *ngIf="task.myTask_Status === 1"
+                > {{getStatusStringForTask(task)}}</span>
+                <span class="badge text-bg-success rounded-pill" *ngIf="task.myTask_Status === 2"
+                > {{getStatusStringForTask(task)}}</span>
               </td>
               <td class="text-end col-2">
                 <a  class="update-link"  data-bs-toggle="modal" data-bs-target="#taskUpdate"  (click)="openEditDialog(task.id)" ><i class="pi pi-file-edit update-icon"></i> </a>
                 
                 <br>
-                <a href="/DefaultLayout/admin/task" class="delete-link" (click)="deleteTaskId(task.id)"><i
+                <a  class="delete-link" (click)="deleteTaskId(task.id)"><i
                     class="pi pi-trash delete-icon"></i> </a>
               </td>
             </tr>
@@ -54,7 +60,7 @@
 
 
 <!-- Task Add Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form class="modal-content" novalidate>

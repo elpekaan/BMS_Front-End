@@ -25,6 +25,7 @@ import { DefaultWelcomePageFooterComponent } from './containers/default-welcome-
 import { TeamPageComponent } from './containers/default-welcome-page/team-page/team-page.component';
 import { MainModule } from './modules/main/main.module';
 import { DefaultUserProfilePageComponent } from './containers/default-user-profile-page/default-user-profile-page.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { DefaultUserProfilePageComponent } from './containers/default-user-profi
     CardModule,
     MainModule,
     InputTextModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

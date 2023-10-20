@@ -7,6 +7,7 @@ import { Room } from 'src/core/models/room.model';
 import { MyTask } from 'src/core/models/mytask.model';
 import { Project } from 'src/core/models/project.model';
 import { Ticket } from 'src/core/models/ticket.model';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +16,7 @@ import { Ticket } from 'src/core/models/ticket.model';
 })
 export class DashboardComponent {
 
-  constructor(private authService: AuthService, private apiService: ApiService) { }
+  constructor(private authService: AuthService, private apiService: ApiService,private messageService: MessageService) { }
   
   registrationSuccess: boolean = false;
   formData: any = { };
@@ -55,6 +56,7 @@ export class DashboardComponent {
   console.log(registerRequestModel);
     this.authService.register(registerRequestModel).then((responseStatus) => {
       if (responseStatus === ResponseStatus.Ok) {
+        this.showSuccessMessage("Başarıyla kayıt gerçekleştirildi.")
         console.log('Kullanıcı kaydedildi.');
         this.registrationSuccess = true;
         this.resetForm();
@@ -128,6 +130,10 @@ export class DashboardComponent {
     } catch (error) {
       console.error('Veri sayısı alınamadı:', error);
     }
+  }
+
+  private showSuccessMessage(message: string) {
+    this.messageService.add({ severity: 'success', summary: 'Başarılı', detail: message });
   }
 
 }
