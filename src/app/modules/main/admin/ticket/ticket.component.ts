@@ -71,7 +71,6 @@ export class TicketComponent {
         this.showInfoMessage('Silme işlemi tamamlandı.');
         this.refresh();
       }
-
     })
   }
   refresh() {

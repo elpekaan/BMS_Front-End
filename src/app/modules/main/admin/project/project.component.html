@@ -32,7 +32,15 @@
               <td class="text-muted col-2">{{ project.project_Description }}</td>
               <td class="text-muted col-2">{{ project.project_DeadLine }}</td>
               <td class="text-muted col-2">
-                <span class="badge text-bg-success rounded-pill"> {{getStatusStringForProject(project)}}</span>
+                <span class="badge text-bg-secondary rounded-pill" *ngIf="project.project_Status === 0">
+                  {{getStatusStringForProject(project)}}
+                </span>
+                <span class="badge text-bg-warning rounded-pill" *ngIf="project.project_Status === 1">
+                  {{getStatusStringForProject(project)}}
+                </span>
+                <span class="badge text-bg-success rounded-pill" *ngIf="project.project_Status === 2">
+                  {{getStatusStringForProject(project)}}
+                </span>
               </td>
               <td class="col-2">
                 <span class="avatar avatar-xs me-1">
@@ -43,8 +51,7 @@
               <td class="text-muted col-3">{{ findRoomName(project.roomId) }}</td>
               <td class="text-end col-2">
                 <a  class="update-link"  data-bs-toggle="modal" data-bs-target="#ProjectUpdate"  (click)="openEditDialog(project.id)" ><i class="pi pi-file-edit update-icon"></i> </a>                <br>
-                <a href="/DefaultLayout/admin/project" class="delete-link" (click)="deleteProjectId(project.id)"><i
-                  class="pi pi-trash delete-icon"></i> </a>
+                <a class="delete-link" (click)="deleteProjectId(project.id)"><i class="pi pi-trash delete-icon"></i> </a>
                 </td>
             </tr>
           </tbody>
@@ -87,7 +94,7 @@
         </div>
 
         <div class="col-md-6">
-          <label for="ticketRoom" class="form-label">Tickets's Room</label>
+          <label for="PRojectRoom" class="form-label">Project's Room</label>
           <select [(ngModel)]="projectRequest.roomId" [ngModelOptions]="{ standalone: true }" class="form-select"  required>
             <option value="" disabled selected>Room Select</option>
             <ng-container *ngFor="let room of roomsProjectRole">
@@ -106,8 +113,6 @@
             Enter the Project deadline.
           </div>
         </div>
-
-
         <div class="col-md-6">
           <label for="ProjectStatus" class="form-label">Project's Status</label>
           <select [(ngModel)]="projectRequest.project_Status" [ngModelOptions]="{standalone: true}" class="form-select"
@@ -134,6 +139,7 @@
     </form>
   </div>
 </div>
+<p-toast></p-toast>
 
 <!-- Project Update Modal -->
 <div    class="modal fade"  id="ProjectUpdate" data-bs-keyboard="false" tabindex="-1"
@@ -159,6 +165,18 @@
           </div>
         </div>
 
+        <div class="col-md-6">
+          <label for="roomUser" class="form-label">Project's Room</label>
+          <select [(ngModel)]="projectRequest.userId" [ngModelOptions]="{ standalone: true }" class="form-select"  required>
+            <option value="" disabled selected>Seçiniz</option>
+            <ng-container *ngFor="let room of roomsProjectRole">
+              <option [value]="room.id">{{ room.room_Name }}</option>
+            </ng-container>
+          </select>
+          <div class="invalid-feedback">
+            Lütfen bir seçenek seçin.
+          </div>
+        </div>
 
         <div class="col-md-6">
           <label for="ProjectTitle" class="form-label">Project Title</label>

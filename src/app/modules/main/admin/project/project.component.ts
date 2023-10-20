@@ -63,6 +63,26 @@ export class ProjectComponent implements OnInit {
     });
   }
 
+  getStatusStringForProject(project: Project): string {
+    switch (project.project_Status) {
+      case 0:
+        return 'Not Started';
+      case 1:
+        return 'In Progress';
+      case 2:
+        return 'Completed';
+      default:
+        return 'Unknown';
+    }
+  }
+
+  private showSuccessMessage(message: string) {
+    this.messageService.add({ severity: 'success', summary: 'Başarılı', detail: message });
+  }
+  private showInfoMessage(message: string) {
+    this.messageService.add({ severity: 'info', summary: 'Bilgi', detail: message });
+  }
+
   // Yeni proje oluşturma
   onCreate(entity: ProjectRequest) {
     this.apiService.createEntity<ProjectRequest>(entity, 'Project').then(response => {
@@ -76,12 +96,6 @@ export class ProjectComponent implements OnInit {
         entity.project_Description = "";
       }
     });
-  }
-  private showSuccessMessage(message: string) {
-    this.messageService.add({ severity: 'success', summary: 'Başarılı', detail: message });
-  }
-  private showInfoMessage(message: string) {
-    this.messageService.add({ severity: 'info', summary: 'Bilgi', detail: message });
   }
 
   private showErrorMessage(message: string) {
@@ -97,10 +111,10 @@ export class ProjectComponent implements OnInit {
   deleteProjectId(id: number) {
     this.apiService.deleteEntity(id, Project).then(response => {
       if (response?.status == ResponseStatus.Ok) {
-        // Silme başarılı
+        this.refresh();
+        this.showInfoMessage('Silme işlemi tamamlandı.');
       }
-      console.log(response);
-    });
+    })
   }
 
   // Sayfayı yenileme
@@ -124,34 +138,20 @@ export class ProjectComponent implements OnInit {
     });
   }
 
-  // Proje güncelleme
-  update(id: number, updatedProject: Project) {
-    return this.apiService.updateEntity(id, updatedProject, Project);
-  }
-
-  // Proje güncelleme işlemi
-  onUpdate(id: number, updatedProject: Project) {
-    this.update(id, updatedProject).then(response => {
-      if (response?.status == ResponseStatus.Ok) {
-        this.refresh();
-        console.log(response.message);
-      }
-    }).catch((error) => {
-      console.error('Proje güncellenirken bir hata oluştu:', error);
-    });
-  }
-
-  // Proje durumunu string olarak alma
-  getStatusStringForProject(project: Project): string {
-    switch (project.project_Status) {
-      case 0:
-        return 'Not Started';
-      case 1:
-        return 'In Progress';
-      case 2:
-        return 'Completed';
-      default:
-        return 'Unknown';
+    // Proje güncelleme işlemi
+    onUpdate(id: number, updatedProject: Project) {
+      this.update(id, updatedProject).then(response => {
+        if (response?.status == ResponseStatus.Ok) {
+          this.refresh();
+          console.log(response.message);
+          this.showSuccessMessage('Güncellemeniz başarıyla tamamlandı.');
+        }
+      }).catch((error) => {
+        console.error('Proje güncellenirken bir hata oluştu:', error);
+      });
     }
-  }
+        // Proje güncelleme
+        update(id: number, updatedProject: Project) {
+          return this.apiService.updateEntity(id, updatedProject, Project);
+        }
 }

@@ -9,5 +9,4 @@ export class Ticket {
 export enum TicketStatus {
     Opened,
     Closed
-    
 }

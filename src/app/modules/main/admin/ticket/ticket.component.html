@@ -49,7 +49,7 @@
 
               <td class="text-end col-2">
                 <a  class="update-link"  data-bs-toggle="modal" data-bs-target="#ticketUpdate"  (click)="openEditDialog(ticket.id)" ><i class="pi pi-file-edit update-icon"></i> </a>
-                
+
                 <br>
                 <a  class="delete-link" (click)="deleteTicketId(ticket.id)"><i class="pi pi-trash delete-icon"></i> </a>
               </td>
@@ -116,7 +116,7 @@
             Select your status.
           </div>
         </div>
-       
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -161,7 +161,7 @@
             Lütfen bir seçenek seçin.
           </div>
         </div>
-        
+
         <div class="col-md-6">
           <label for="taskTitle" class="form-label">Tickets Title</label>
           <input [(ngModel)]="ticketRequest.ticket_Content" [ngModelOptions]="{standalone: true}" type="text"
@@ -169,16 +169,15 @@
           <div class="invalid-feedback">
             Enter your room's name.
           </div>
-        </div>        
+        </div>
 
         <div class="col-md-6">
           <label for="taskStatus" class="form-label">Tickets's Status</label>
           <select [(ngModel)]="ticketToEdit.ticket_Status" [ngModelOptions]="{standalone: true}" class="form-select"
             id="taskStatus" required>
             <option value="" disabled selected>Seçiniz</option>
-            <option [ngValue]=0>Not Started</option>
-            <option [ngValue]=1>In Progress</option>
-            <option [ngValue]=2>Completed</option>
+            <option [ngValue]=0>Opened</option>
+            <option [ngValue]=1>Closed</option>
           </select>
           <div class="invalid-feedback">
             Select your status.
