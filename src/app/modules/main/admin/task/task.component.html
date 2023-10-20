@@ -36,7 +36,12 @@
               <td class="text-muted col-2">{{ task.myTask_Description }}</td>
               <td class="text-muted col-2">{{ task.myTask_DeadLine | date: 'dd/MM/yyyy HH:mm' }}</td>
               <td class="text-end col-2">
-                <span class="badge text-bg-success rounded-pill"> {{getStatusStringForTask(task)}}</span>
+                <span class="badge text-bg-secondary rounded-pill" *ngIf="task.myTask_Status === 0"
+                > {{getStatusStringForTask(task)}}</span>
+                <span class="badge text-bg-warning rounded-pill" *ngIf="task.myTask_Status === 1"
+                > {{getStatusStringForTask(task)}}</span>
+                <span class="badge text-bg-success rounded-pill" *ngIf="task.myTask_Status === 2"
+                > {{getStatusStringForTask(task)}}</span>
               </td>
               <td class="text-end col-2">
                 <a  class="update-link"  data-bs-toggle="modal" data-bs-target="#taskUpdate"  (click)="openEditDialog(task.id)" ><i class="pi pi-file-edit update-icon"></i> </a>
