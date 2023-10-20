@@ -1,13 +1,9 @@
-export interface RequestProject {
+export interface ProjectRequest {
     project_Title: string,
     project_Description: string,
     project_DeadLine: Date,
-    project_Status: projectStatus,
+    project_Status: string,
     userId: number,
-    roomId: number
+    roomId: number,
 }
-export enum projectStatus {
-    NotStarted,
-    InProgress,
-    Completed
-}
+
