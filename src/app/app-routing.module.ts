@@ -24,12 +24,12 @@ const routes: Routes = [
     path: 'DefaultLayout',
     component: DefaultLayoutComponent,
     children: [
+      { path: 'ProfilePage', component: DefaultUserProfilePageComponent},
       { path: 'admin/dashboard', component: DashboardComponent },
       { path: 'admin/project', component: ProjectComponent },
       { path: 'admin/room', component: RoomComponent },
       { path: 'admin/task', component: TaskComponent },
       { path: 'admin/ticket', component: TicketComponent },
-      { path: 'ProfilePage', component: DefaultUserProfilePageComponent},
     ],
   },
 ];
