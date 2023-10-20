@@ -5,36 +5,37 @@
       <div class="card-header border-0 card-header-space-between">
         <h2 class="card-header-title h4 text-secondary">
           Rooms
-          <a class="btn btn-outline-success ml-2 btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          <a class="btn btn-outline-success ml-2 btn-sm" data-bs-toggle="modal" data-bs-target="#staticAddRoom">
             Add Rooms
             <i class="pi pi-plus"></i>
           </a>
         </h2>
       </div>
       <div class="table-responsive">
+        <p-toast></p-toast>
+
         <table id="projectsTable" class="table align-middle table-edge table-nowrap mb-0">
           <thead class="thead-light">
             <tr>
-              <th class="user-cell">ID</th>
-              <th class="description-cell">Room Name</th>
               <th class="description-cell">Room Users</th>
+              <th class="description-cell">Room Name</th>
               <th class="text-end">İşlemler</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let room of rooms">
-              <td class="text-muted col-1">{{ room.id }}</td>
-              <td class="text-muted col-2">{{ findRoomName(room.room_Name) }}</td>
               <td class="col-2">
                 <span class="avatar avatar-xs me-1">
                   <img src="https://i.hizliresim.com/pe0arjn.png" width="20px" height="20px">
                 </span>
                 {{ findUserName(room.userId) }}
               </td>
+              <td class="text-muted col-2">{{ room.room_Name }}</td>
+              
               <td class="text-end col-2">
-                <a href="#" class="update-link"><i class="pi pi-file-edit update-icon"></i> </a>
+                <a  class="update-link"  data-bs-toggle="modal" data-bs-target="#roomUpdate"  (click)="openEditDialog(room.id)" ><i class="pi pi-file-edit update-icon"></i> </a>                
                 <br>
-                <a href="/DefaultLayout/admin/room" class="delete-link" (click)="deleteRoomId(room.id)"><i class="pi pi-trash delete-icon"></i> </a>
+                <a class="delete-link" (click)="deleteRoomId(room.id)"><i class="pi pi-trash delete-icon"></i> </a>
               </td>
             </tr>
           </tbody>
@@ -45,63 +46,82 @@
 </div>
 
 <!-- Task Add Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticAddRoom" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form class="modal-content" novalidate>
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Rooms</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Room</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body row">
         <div class="col-md-6">
-          <label for="projectUser" class="form-label">Room's User</label>
-          <select class="form-select" id="projectUser" required>
+          <label for="roomUser" class="form-label">Room's User</label>
+          <select [(ngModel)]="roomRequest.userId" [ngModelOptions]="{ standalone: true }" class="form-select"  required>
             <option value="" disabled selected>Seçiniz</option>
-            <option value="User1">User 1</option>
+            <ng-container *ngFor="let userrom of getDeveloperTeamLeadUsers()">
+              <option [value]="userrom.id">{{ userrom.fullName }}</option>
+            </ng-container>
           </select>
           <div class="invalid-feedback">
             Lütfen bir seçenek seçin.
           </div>
         </div>
+        
         <div class="col-md-6">
-          <label for="projectUser" class="form-label">Room's Project</label>
-          <select class="form-select" id="projectUser" required>
-            <option value="" disabled selected>Seçiniz</option>
-            <option value="User1">Select Projects</option>
-          </select>
-          <div class="invalid-feedback">
-            Lütfen bir seçenek seçin.
-          </div>
-        </div>
-        <div class="col-md-6">
-          <label for="taskTitle" class="form-label">Room's Name</label>
-          <input type="text" class="form-control" id="taskTitle" required>
+          <label for="taskTitle" class="form-label">Room Name</label>
+          <input [(ngModel)]="roomRequest.room_Name" [ngModelOptions]="{standalone: true}" type="text"
+            class="form-control" id="taskTitle" required>
           <div class="invalid-feedback">
             Enter your room's name.
           </div>
         </div>
 
-
-        <div class="col-md-6">
-          <label for="taskStatus" class="form-label">Room's Status</label>
-          <select class="form-select" id="taskStatus" required>
-            <option value="" disabled selected>Seçiniz</option>
-            <option value="enum1">In Progress </option>
-            <option value="enum2">Waiting </option>
-            <option value="enum3">See you soon</option>
-          </select>
-          <div class="invalid-feedback">
-            Select your status.
-          </div>
-        </div>
-        <div class="col-md-12">
-          <label for="taskDetail" class="form-label">Room Details</label>
-          <textarea class="form-control" id="taskDetail" rows="3"></textarea>
-        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button class="btn btn-primary" (click)="onCreate(roomRequest)">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Task Update Modal -->
+<div    class="modal fade"  id="roomUpdate" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" novalidate *ngIf="roomToEdit" >
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Update Room</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body row" >
+        <div class="col-md-6">
+          <label for="roomUser" class="form-label">Room's User</label>
+          <select [(ngModel)]="roomToEdit.userId" [ngModelOptions]="{ standalone: true }" class="form-select"  required>
+            <option value="" disabled selected>Seçiniz</option>
+            <ng-container *ngFor="let userroom of getDeveloperTeamLeadUsers()">
+              <option [value]="userroom.id">{{ userroom.fullName }}</option>
+            </ng-container>
+          </select>
+          <div class="invalid-feedback">
+            Lütfen bir seçenek seçin.
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <label for="taskTitle" class="form-label">Room Name</label>
+          <input [(ngModel)]="roomToEdit.room_Name" [ngModelOptions]="{standalone: true}" type="text"
+            class="form-control" id="taskTitle" required>
+          <div class="invalid-feedback">
+            Enter your room's name.
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-primary" type="submit" (click)="onUpdate(roomToEdit.id,roomToEdit)">Update</button>
       </div>
     </form>
   </div>

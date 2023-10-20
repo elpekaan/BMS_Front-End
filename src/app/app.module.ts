@@ -24,6 +24,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DefaultWelcomePageFooterComponent } from './containers/default-welcome-page-footer/default-welcome-page-footer.component';
 import { TeamPageComponent } from './containers/default-welcome-page/team-page/team-page.component';
 import { MainModule } from './modules/main/main.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { MainModule } from './modules/main/main.module';
     CardModule,
     MainModule,
     InputTextModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

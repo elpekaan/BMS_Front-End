@@ -3,8 +3,9 @@ import { ApiService } from 'src/core/services/api/api.service';
 import { MyTask } from 'src/core/models/mytask.model';
 import { User, UserType } from 'src/core/models/user.model';
 import { ResponseStatus } from 'src/core/models/response/base-response.model';
-import { Router } from '@angular/router';
 import { MyTaskRequest } from 'src/core/models/request/mytask-request.model';
+import { MessageService } from 'primeng/api';
+
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
@@ -13,12 +14,12 @@ import { MyTaskRequest } from 'src/core/models/request/mytask-request.model';
 export class TaskComponent implements OnInit {
 
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService,private messageService: MessageService) { }
 
   myTasks: MyTask[] = [];
   public taskRequest: MyTaskRequest = <MyTaskRequest>{}
   taskToEdit: MyTask | null = null;
-
+  visible: boolean = false;
   users: User[] = [];
   usersMyTaskRol: User[] = [];
 
@@ -59,18 +60,30 @@ export class TaskComponent implements OnInit {
   }
 
   onCreate(entity: MyTaskRequest) {
-
     this.createEntity<MyTaskRequest>(entity, 'MyTask').then(response => {
-      if (response?.status == ResponseStatus.Ok) {
-        this.refresh();
-        console.log(response.message);
-        entity.userId=0;
-        entity.myTask_Title="";
-        entity.myTask_Status="",
-        entity.myTask_Description=""
-      }
+        if (response?.status == ResponseStatus.Ok) {
+            this.refresh();
+            console.log(response.message);
+            entity.userId = 0;
+            entity.myTask_Title = "";
+            entity.myTask_Status = "";
+            entity.myTask_Description = "";
+
+            // Eklemenin başarıyla tamamlandığını göstermek için messageService kullanımı
+            this.showSuccessMessage('Eklemeniz başarıyla tamamlandı.');
+        }
     });
-  }
+}
+private showSuccessMessage(message: string) {
+  this.messageService.add({ severity: 'success', summary: 'Başarılı', detail: message });
+}
+private showInfoMessage(message: string) {
+  this.messageService.add({ severity: 'info', summary: 'Bilgi', detail: message });
+}
+
+private showErrorMessage(message: string) {
+  this.messageService.add({ severity: 'error', summary: 'Hata', detail: message });
+}
 
   createEntity<TEntity>(entity: TEntity, entityType: string) {
     return this.apiService.createEntity<TEntity>(entity, entityType);
@@ -78,20 +91,28 @@ export class TaskComponent implements OnInit {
 
   deleteTaskId(id: number) {
     this.apiService.deleteEntity(id, MyTask).then(response => {
-      if (response?.status == ResponseStatus.Ok) { }
+      if (response?.status == ResponseStatus.Ok) {
+        this.showInfoMessage('Silme işlemi gerçekleşti.');
+        this.refresh();
+       }
       console.log(response);
-      this.refresh();
+      
     })
   }
+
+
+
+
+
+  
   refresh() {
     this.apiService.getAllEntities(MyTask).subscribe((response) => {
       this.myTasks = response.data;
       console.log(this.myTasks)
-    });
+    });    
   }
-
-
-  //Güncellemek istediğimiz aracın bilgilerini çeken kod
+ 
+//GÜNCELLEME İŞLEMLERİ
   openEditDialog(id: number) {
     this.apiService.getEntityById<MyTask>(id, MyTask).then((response) => {
       if (response && response.data) {
@@ -108,12 +129,16 @@ export class TaskComponent implements OnInit {
   onUpdate(id: number, updatedTask: MyTask) {
     this.update(id, updatedTask).then(response => {
       if (response?.status == ResponseStatus.Ok) {
+
+         // Gücelleme başarıyla tamamlandığını göstermek için messageService kullanımı
+         this.showSuccessMessage('Güncellemeniz başarıyla tamamlandı.');
+     
         this.refresh();
         console.log(response.message);
    
       }
     }).catch((error) => {
-      console.error('Araç güncellenirken bir hata oluştu:', error);
+      this.showErrorMessage('Task güncelenirken hata oluştu.');
     });
   }
 
@@ -121,8 +146,5 @@ export class TaskComponent implements OnInit {
   update(id: number, updatedTask: MyTask) {
     return this.apiService.updateEntity(id, updatedTask, MyTask);
   }
-
-
-
 
 }
