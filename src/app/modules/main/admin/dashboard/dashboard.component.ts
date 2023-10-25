@@ -17,7 +17,7 @@ import { MessageService } from 'primeng/api';
 export class AdminDashboardComponent {
 
   constructor(private authService: AuthService, private apiService: ApiService,private messageService: MessageService) { }
-  
+
   registrationSuccess: boolean = false;
   formData: any = { };
   options: string[] = ["Team Lead", "Developer"];
@@ -42,7 +42,7 @@ export class AdminDashboardComponent {
     this.getProjectCount();
     this.getTicketCount();
   }
-  
+
   registerUser() {
     const registerRequestModel: RegisterRequest = {
       tc_no: this.formData.tc_no,
