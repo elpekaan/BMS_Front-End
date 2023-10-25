@@ -15,13 +15,13 @@ import { BaseResponse } from 'src/core/models/response/base-response.model';
   providedIn: 'root',
 })
 export class ApiService {
-  private endpoint = environment.api_url;
+  private endpoint = environment.api_url; 
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {} 
 
   login(request: LoginRequest): Observable<BaseDataResponse<TokenResponse>> {
     return this.http
-      .post<BaseDataResponse<TokenResponse>>(
+      .post<BaseDataResponse<TokenResponse>>( 
         this.endpoint + '/Auth/Login',
         request
       )
@@ -37,7 +37,6 @@ export class ApiService {
   ): Observable<BaseDataResponse<TokenResponse>> {
     return this.http
       .post<BaseDataResponse<TokenResponse>>(
-        //ENDPOINT DEĞİŞECEK (/signin olacak)
         this.endpoint + '/Auth/Register',
         request
       )
@@ -49,27 +48,55 @@ export class ApiService {
   }
 
   getEntityById<TEntity>(id: number, entityType: Type<TEntity>) {
-    return this.http.get<BaseDataResponse<TEntity>>
-    (`${environment.api_url}/${entityType.name}/GetById/${id}`)
-    .pipe(share()).toPromise();
+    return this.http
+      .get<BaseDataResponse<TEntity>>(
+        `${environment.api_url}/${entityType.name}/GetById?id=${id}`
+      )
+      .pipe(share())
+      .toPromise();
   }
 
   createEntity<TEntity>(entity: TEntity, entityType: string) {
-    return this.http.post<BaseDataResponse<TEntity[]>>
-      (environment.api_url + "/" + entityType + "/Create", entity)
-      .pipe(share()).toPromise();
+    return this.http
+      .post<BaseDataResponse<TEntity[]>>(
+        environment.api_url + '/' + entityType + '/Create',
+        entity
+      )
+      .pipe(share())
+      .toPromise();
   }
 
   deleteEntity<TEntity>(id: number, entityType: Type<TEntity>) {
-    return this.http.delete<BaseResponse>
-    (environment.api_url + "/" + entityType.name + "/Delete/" + id)
-    .pipe(share()).toPromise();
+    return this.http
+      .delete<BaseResponse>(
+        environment.api_url + '/' + entityType.name + '/Delete?id=' + id
+      )
+      .pipe(share())
+      .toPromise();
   }
 
-  updateEntity<TEntity>(id: number, newEntity: TEntity, entityType: Type<TEntity>) {
-    return this.http.put<BaseDataResponse<TEntity[]>>
-      (environment.api_url + "/" + entityType.name + "/Update/" + id, newEntity)
-      .pipe(share()).toPromise();
+  updateEntity<TEntity>(
+    id: number,
+    newEntity: TEntity,
+    entityType: Type<TEntity>
+  ) {
+    return this.http
+      .put<BaseDataResponse<TEntity[]>>(
+        environment.api_url + '/' + entityType.name + '/Update?id=' + id,
+        newEntity
+      )
+      .pipe(share())
+      .toPromise();
+  }
+
+  getProfileInfo(): Observable<BaseDataResponse<User>> {
+    return this.http
+      .get<BaseDataResponse<User>>(this.endpoint + '/Auth/GetProfileInfo')
+      .pipe(
+        map((result) => {
+          return result;
+        })
+      );
   }
 
   refreshToken(token: string): Observable<BaseDataResponse<TokenResponse>> {
@@ -85,19 +112,13 @@ export class ApiService {
       );
   }
 
-  getProfileInfo(): Observable<BaseDataResponse<User>> {
-    return this.http
-      .get<BaseDataResponse<User>>(this.endpoint + '/User/GetAll')
-      .pipe(
-        map((result) => {
-          return result;
-        })
-      );
-  }
-
   getAllEntities<TEntity>(entityType: Type<TEntity>) {
-    return this.http.request<BaseDataResponse<TEntity[]>>
-      ("get", environment.api_url + "/" + entityType.name + "/GetAll").pipe(share());
+    return this.http
+      .request<BaseDataResponse<TEntity[]>>(
+        'get',
+        environment.api_url + '/' + entityType.name + '/GetAll'
+      )
+      .pipe(share());
   }
 
 }

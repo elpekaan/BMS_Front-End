@@ -11,7 +11,7 @@ import { MessageService } from 'primeng/api';
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.scss']
 })
-export class TaskComponent implements OnInit {
+export class AdminTaskComponent implements OnInit {
 
 
   constructor(private apiService: ApiService,private messageService: MessageService) { }

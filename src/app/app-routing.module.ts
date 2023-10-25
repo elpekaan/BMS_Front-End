@@ -4,14 +4,24 @@ import { HomePageComponent } from './containers/default-welcome-page/home-page/h
 import { AboutusPageComponent } from './containers/default-welcome-page/aboutus-page/aboutus-page.component';
 import { ContactPageComponent } from './containers/default-welcome-page/contact-page/contact-page.component';
 import { LoginPageComponent } from './containers/default-welcome-page/login-page/login-page.component';
-import { DashboardComponent } from './modules/main/admin/dashboard/dashboard.component';
-import { ProjectComponent } from './modules/main/admin/project/project.component';
-import { RoomComponent } from './modules/main/admin/room/room.component';
-import { TaskComponent } from './modules/main/admin/task/task.component';
-import { TicketComponent } from './modules/main/admin/ticket/ticket.component';
+import { AdminDashboardComponent } from './modules/main/admin/dashboard/dashboard.component';
+import { AdminProjectComponent } from './modules/main/admin/project/project.component';
+import { AdminRoomComponent } from './modules/main/admin/room/room.component';
+import { AdminTaskComponent } from './modules/main/admin/task/task.component';
+import { AdminTicketComponent } from './modules/main/admin/ticket/ticket.component';
 import { DefaultLayoutComponent } from './containers/default-layout/default-layout.component';
 import { TeamPageComponent } from './containers/default-welcome-page/team-page/team-page.component';
 import { DefaultUserProfilePageComponent } from './containers/default-user-profile-page/default-user-profile-page.component';
+import { TeamLeadDashboardComponent } from './modules/main/teamlead/dashboard/dashboard.component';
+import { TeamLeadProjectComponent } from './modules/main/teamlead/project/project.component';
+import { TeamLeadRoomComponent } from './modules/main/teamlead/room/room.component';
+import { TeamLeadTaskComponent } from './modules/main/teamlead/task/task.component';
+import { TeamLeadTicketComponent } from './modules/main/teamlead/ticket/ticket.component';
+import { DeveloperDashboardComponent } from './modules/main/developer/dashboard/dashboard.component';
+import { DeveloperProjectComponent } from './modules/main/developer/project/project.component';
+import { DeveloperRoomComponent } from './modules/main/developer/room/room.component';
+import { DeveloperTaskComponent } from './modules/main/developer/task/task.component';
+import { DeveloperTicketComponent } from './modules/main/developer/ticket/ticket.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/HomePage', pathMatch: 'full' },
@@ -24,18 +34,42 @@ const routes: Routes = [
     path: 'DefaultLayout',
     component: DefaultLayoutComponent,
     children: [
-      { path: 'ProfilePage', component: DefaultUserProfilePageComponent},
-      { path: 'admin/dashboard', component: DashboardComponent },
-      { path: 'admin/project', component: ProjectComponent },
-      { path: 'admin/room', component: RoomComponent },
-      { path: 'admin/task', component: TaskComponent },
-      { path: 'admin/ticket', component: TicketComponent },
+      { path: 'ProfilePage', component: DefaultUserProfilePageComponent },
+      { path: 'admin/dashboard', component: AdminDashboardComponent },
+      { path: 'admin/project', component: AdminProjectComponent },
+      { path: 'admin/room', component: AdminRoomComponent },
+      { path: 'admin/task', component: AdminTaskComponent },
+      { path: 'admin/ticket', component: AdminTicketComponent },
+    ],
+  },
+  {
+    path: 'DefaultLayout',
+    component: DefaultLayoutComponent,
+    children: [
+      { path: 'ProfilePage', component: DefaultUserProfilePageComponent },
+      { path: 'teamlead/dashboard', component: TeamLeadDashboardComponent },
+      { path: 'teamlead/project', component: TeamLeadProjectComponent },
+      { path: 'teamlead/room', component: TeamLeadRoomComponent },
+      { path: 'teamlead/task', component: TeamLeadTaskComponent },
+      { path: 'teamlead/ticket', component: TeamLeadTicketComponent },
+    ],
+  },
+  {
+    path: 'DefaultLayout',
+    component: DefaultLayoutComponent,
+    children: [
+      { path: 'ProfilePage', component: DefaultUserProfilePageComponent },
+      { path: 'developer/dashboard', component: DeveloperDashboardComponent },
+      { path: 'developer/project', component: DeveloperProjectComponent },
+      { path: 'developer/room', component: DeveloperRoomComponent },
+      { path: 'developer/task', component: DeveloperTaskComponent },
+      { path: 'developer/ticket', component: DeveloperTicketComponent },
     ],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

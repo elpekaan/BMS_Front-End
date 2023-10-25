@@ -7,7 +7,7 @@ import { Room } from 'src/core/models/room.model';
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss']
 })
-export class RoomComponent implements OnInit{
+export class TeamLeadRoomComponent implements OnInit{
 
   constructor(private apiService: ApiService) {}
   

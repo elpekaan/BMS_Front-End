@@ -8,7 +8,7 @@ import { User } from 'src/core/models/user.model';
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.scss']
 })
-export class TaskComponent implements OnInit {
+export class DeveloperTaskComponent implements OnInit {
   constructor(private apiService: ApiService) {}
 
   myTasks: MyTask[] = [];

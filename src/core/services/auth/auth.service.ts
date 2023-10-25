@@ -8,8 +8,6 @@ import { User } from '../../models/user.model';
 import { Router } from '@angular/router';
 import { RegisterRequest } from 'src/core/models/request/register-request.model';
 
-
-
 @Injectable({
   providedIn: 'root',
 })
@@ -17,61 +15,84 @@ export class AuthService {
   public currentUser: Observable<User | null>;
   private currentUserSubject: BehaviorSubject<User | null>;
 
-  //prettier-ignore
-  constructor(private readonly apiService: ApiService, private router:Router) { //API çağrıları yapmak için kullanılır.
-    this.currentUserSubject = new BehaviorSubject<User | null>(JSON.parse(<string>sessionStorage.getItem('current_user')));
-  //currentUserSubject, sessionStorage'da saklanan mevcut kullanıcı bilgisini tutar.
+  constructor(private readonly apiService: ApiService, private router: Router) {
+    this.currentUserSubject = new BehaviorSubject<User | null>(
+      JSON.parse(<string>sessionStorage.getItem('current_user'))
+    );
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): User | null {
+  public get currentValue(): User | null {
     return this.currentUserSubject.value;
   }
-      //prettier-ignore
-      public async login(request: LoginRequest): Promise<ResponseStatus> {
-        const loginResponse = await this.apiService.login(request).toPromise();
-  
-        let status = loginResponse!.status;
-  
-        if (status == ResponseStatus.Ok) {
-          this.setToken(loginResponse!.data);
-  
-          const profileResponse = await this.apiService
-            .getProfileInfo()
-            .toPromise();
-  
-          status = profileResponse!.status;
-  
-          if (status == ResponseStatus.Ok) {
-            sessionStorage.setItem('current_user', JSON.stringify(profileResponse!.data));
-  
-            this.currentUserSubject.next(profileResponse!.data);
-          } else {
-            await this.logOut();
-          }
-        }
-  
-        return status;
-      }
-  
 
+  public async login(request: LoginRequest): Promise<ResponseStatus> {
+    const LoginResponse = await this.apiService.login(request).toPromise();
 
-//Register Kodu 
-public async register(request: RegisterRequest): Promise<ResponseStatus> {
+    let status = LoginResponse!.status;
 
+    if (status == ResponseStatus.Ok) {
+      await this.setUserInfo(LoginResponse?.data!);
+    }
 
-  const registerResponse = await this.apiService.register(request).toPromise();
-
-  let status = registerResponse!.status;
-
-  if (status == ResponseStatus.Ok) {
-    this.setToken(registerResponse!.data);
-    sessionStorage.setItem('current_user', JSON.stringify({}));
-    this.currentUserSubject.next({} as User);
+    return status;
+  }
+  
+  getUserType(): number | undefined {
+    const currentUser = this.currentUserSubject.value;
+    if (currentUser) {
+      return currentUser.userType;
+    }
+    return undefined;
   }
 
-  return status;
-}
+  private async redirectToAppropriatePage(userType: number) {
+    if (userType === 0) {
+      await this.router.navigate(['../DefaultLayout/admin/dashboard']);
+    } else if (userType === 1) {
+      await this.router.navigate(['../DefaultLayout/teamlead/dashboard']);
+    } else if (userType === 2) {
+      await this.router.navigate(['../DefaultLayout/developer/dashboard']);
+    }
+  }
+  async setUserInfo(token: TokenResponse) {
+    this.setToken(token);
+
+    const userProfileResponse = await this.apiService
+      .getProfileInfo()
+      .toPromise();
+
+    let status = userProfileResponse?.status;
+
+    const userProfile = userProfileResponse?.data;
+
+    if (status == ResponseStatus.Ok && userProfile) {
+      sessionStorage.setItem(
+        'current_user',
+        JSON.stringify(userProfileResponse!.data)
+      );
+      this.currentUserSubject.next(userProfileResponse!.data);
+      this.redirectToAppropriatePage(userProfileResponse!.data.userType);
+    } else {
+      await this.logOut();
+    }
+  }
+
+  public async register(request: RegisterRequest): Promise<ResponseStatus> {
+    const registerResponse = await this.apiService
+      .register(request)
+      .toPromise();
+
+    let status = registerResponse!.status;
+
+    if (status == ResponseStatus.Ok) {
+      this.setToken(registerResponse!.data);
+      sessionStorage.setItem('current_user', JSON.stringify({}));
+      this.currentUserSubject.next({} as User);
+    }
+
+    return status;
+  }
 
   public async refreshToken(): Promise<boolean> {
     const refreshTokenResponse = await this.apiService
@@ -79,20 +100,23 @@ public async register(request: RegisterRequest): Promise<ResponseStatus> {
       .toPromise();
 
     if (refreshTokenResponse!.status == ResponseStatus.Ok) {
-      this.setToken(refreshTokenResponse!.data);
-
+      this.setToken(refreshTokenResponse!.data); //
       return true;
     }
-
     return false;
   }
 
-  //prettier-ignore
   private setToken(token: TokenResponse | null) {
     if (token != null) {
       sessionStorage.setItem('access_token', JSON.stringify(token.accessToken));
-      sessionStorage.setItem('token_expiration', JSON.stringify(token.expiration));
-      sessionStorage.setItem('refresh_token', JSON.stringify(token.refreshToken));
+      sessionStorage.setItem(
+        'token_expiration',
+        JSON.stringify(token.expiration)
+      );
+      sessionStorage.setItem(
+        'refresh_token',
+        JSON.stringify(token.refreshToken)
+      );
     }
   }
 

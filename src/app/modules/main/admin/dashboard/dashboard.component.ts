@@ -14,7 +14,7 @@ import { MessageService } from 'primeng/api';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
+export class AdminDashboardComponent {
 
   constructor(private authService: AuthService, private apiService: ApiService,private messageService: MessageService) { }
   

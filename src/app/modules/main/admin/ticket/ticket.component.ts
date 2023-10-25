@@ -13,7 +13,7 @@ import { MessageService } from 'primeng/api';
   templateUrl: './ticket.component.html',
   styleUrls: ['./ticket.component.scss']
 })
-export class TicketComponent {
+export class AdminTicketComponent {
 
   constructor(private apiService: ApiService, private messageService: MessageService) { }
 

@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./default-sidebar.component.scss']
 })
 export class DefaultSidebarComponent {
-
+  
 }

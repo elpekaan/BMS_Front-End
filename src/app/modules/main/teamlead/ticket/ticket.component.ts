@@ -7,7 +7,7 @@ import { Ticket } from 'src/core/models/ticket.model';
   templateUrl: './ticket.component.html',
   styleUrls: ['./ticket.component.scss']
 })
-export class TicketComponent implements OnInit{
+export class TeamLeadTicketComponent implements OnInit{
 
   constructor(private apiService: ApiService) {}
   

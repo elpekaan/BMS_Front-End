@@ -7,7 +7,7 @@ import { Project } from 'src/core/models/project.model';
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss']
 })
-export class ProjectComponent implements OnInit{
+export class TeamLeadProjectComponent implements OnInit{
 
   constructor(private apiService: ApiService) {}
   

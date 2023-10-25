@@ -20,12 +20,13 @@ import { ContactPageComponent } from './containers/default-welcome-page/contact-
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { AuthModule } from './modules/auth/auth.module';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { DefaultWelcomePageFooterComponent } from './containers/default-welcome-page-footer/default-welcome-page-footer.component';
 import { TeamPageComponent } from './containers/default-welcome-page/team-page/team-page.component';
 import { MainModule } from './modules/main/main.module';
 import { DefaultUserProfilePageComponent } from './containers/default-user-profile-page/default-user-profile-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JwtInterceptor } from 'src/core/services/interceptor/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     InputTextModule,
     BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

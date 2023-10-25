@@ -13,7 +13,7 @@ import { MessageService } from 'primeng/api';
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss']
 })
-export class ProjectComponent implements OnInit {
+export class AdminProjectComponent implements OnInit {
 
   constructor(private apiService: ApiService,private messageService: MessageService) {}
 

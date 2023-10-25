@@ -5,6 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss']
 })
-export class RoomComponent {
+export class DeveloperRoomComponent {
 
 }

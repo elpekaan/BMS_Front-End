@@ -7,7 +7,7 @@ import { MyTask } from 'src/core/models/mytask.model';
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.scss']
 })
-export class TaskComponent implements OnInit{
+export class TeamLeadTaskComponent implements OnInit{
   
   constructor(private apiService: ApiService) {}
   

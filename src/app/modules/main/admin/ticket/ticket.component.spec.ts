@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TicketComponent } from './ticket.component';
+import { AdminTicketComponent } from './ticket.component';
 
 describe('TicketComponent', () => {
-  let component: TicketComponent;
-  let fixture: ComponentFixture<TicketComponent>;
+  let component: AdminTicketComponent;
+  let fixture: ComponentFixture<AdminTicketComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TicketComponent]
+      declarations: [AdminTicketComponent]
     });
-    fixture = TestBed.createComponent(TicketComponent);
+    fixture = TestBed.createComponent(AdminTicketComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
