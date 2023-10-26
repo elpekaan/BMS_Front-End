@@ -71,6 +71,7 @@ export class DeveloperTicketComponent {
         this.showInfoMessage('Silme işlemi tamamlandı.');
         this.refresh();
       }
+
     })
   }
   refresh() {
@@ -100,7 +101,7 @@ export class DeveloperTicketComponent {
 
   //GÜNCELLEME İŞLEMLERİ
 
-  openEditDialog(id: number) {
+  openEditDialogTicket(id: number) {
     this.apiService.getEntityById<Ticket>(id, Ticket).then((response) => {
       if (response && response.data) {
         this.ticketToEdit = response.data; // API'den alınan  değişkenine atıyoruz

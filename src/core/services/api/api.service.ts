@@ -50,7 +50,7 @@ export class ApiService {
   getEntityById<TEntity>(id: number, entityType: Type<TEntity>) {
     return this.http
       .get<BaseDataResponse<TEntity>>(
-        `${environment.api_url}/${entityType.name}/GetById?id=${id}`
+        `${environment.api_url}/${entityType.name}/GetById/${id}`
       )
       .pipe(share())
       .toPromise();
@@ -69,7 +69,7 @@ export class ApiService {
   deleteEntity<TEntity>(id: number, entityType: Type<TEntity>) {
     return this.http
       .delete<BaseResponse>(
-        environment.api_url + '/' + entityType.name + '/Delete?id=' + id
+        environment.api_url + '/' + entityType.name + '/Delete/' + id
       )
       .pipe(share())
       .toPromise();
@@ -82,7 +82,7 @@ export class ApiService {
   ) {
     return this.http
       .put<BaseDataResponse<TEntity[]>>(
-        environment.api_url + '/' + entityType.name + '/Update?id=' + id,
+        environment.api_url + '/' + entityType.name + '/Update/' + id,
         newEntity
       )
       .pipe(share())
