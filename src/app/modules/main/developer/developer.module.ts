@@ -5,6 +5,9 @@ import { DeveloperProjectComponent } from './project/project.component';
 import { DeveloperRoomComponent } from './room/room.component';
 import { DeveloperTaskComponent } from './task/task.component';
 import { DeveloperTicketComponent } from './ticket/ticket.component';
+import { FormsModule } from '@angular/forms';
+import { ToastModule } from 'primeng/toast';
+import { BrowserModule } from '@angular/platform-browser';
 
 
 
@@ -14,10 +17,14 @@ import { DeveloperTicketComponent } from './ticket/ticket.component';
     DeveloperProjectComponent,
     DeveloperRoomComponent,
     DeveloperTaskComponent,
-    DeveloperTicketComponent
+    DeveloperTicketComponent,
+    
   ],
   imports: [
-    CommonModule
+    BrowserModule,
+    CommonModule,
+    FormsModule,
+    ToastModule
   ]
 })
 export class DeveloperModule { }  

@@ -7,21 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./default-sidebar.component.scss']
 })
 export class DefaultSidebarComponent {
-  constructor(private authService: AuthService){
+  userType: number | undefined; 
 
-  }
-  isAdmin(): boolean {
-    const userType = this.authService.getUserType();
-    return userType === 0;
-  }
-
-  isTeamlead(): boolean {
-    const userType = this.authService.getUserType();
-    return userType === 1;
-  }
-
-  isDeveloper(): boolean {
-    const userType = this.authService.getUserType();
-    return userType === 2;
+  constructor(private authService: AuthService) {
+    this.userType = this.authService.getUserType(); // Kullanıcı türünü alın
   }
 }
