@@ -7,6 +7,7 @@ import { User, UserType } from 'src/core/models/user.model';
 import { ResponseStatus } from 'src/core/models/response/base-response.model';
 import { RoomRequest } from 'src/core/models/request/room-request.model';
 import { MessageService } from 'primeng/api';
+import { AuthService } from 'src/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-room',
@@ -15,8 +16,9 @@ import { MessageService } from 'primeng/api';
 })
 export class TeamLeadRoomComponent implements OnInit{
 
-  constructor(private apiService: ApiService, private messageService: MessageService) { }
+  constructor(private apiService: ApiService, private authService: AuthService, private messageService: MessageService) {
 
+  }
   rooms: Room[] = [];
   public roomRequest: RoomRequest = <RoomRequest>{}
   roomToEdit: Room | null = null;
@@ -26,10 +28,13 @@ export class TeamLeadRoomComponent implements OnInit{
   usersRoomRol: User[] = [];
 
   ngOnInit() {
+
+    const currentUserId = this.authService.getCurrentUserId();
+
     this.apiService.getAllEntities(Room).subscribe((roomResult) => {
-      this.rooms = roomResult.data;
-      console.log(roomResult.data)
-    })
+      this.rooms = roomResult.data.filter((room) =>
+      room.userId === currentUserId);
+    });
     this.apiService.getAllEntities(Project).subscribe((projectResult) => {
       this.projects = projectResult.data;
       console.log(projectResult.data)
@@ -54,14 +59,15 @@ export class TeamLeadRoomComponent implements OnInit{
     })
   }
   refresh() {
-    this.apiService.getAllEntities(Room).subscribe((response) => {
-      this.rooms = response.data;
-      console.log(this.rooms)
+    const currentUserId = this.authService.getCurrentUserId();
+    this.apiService.getAllEntities(Room).subscribe((roomResult) => {
+      this.rooms = roomResult.data.filter((room) =>
+      room.userId === currentUserId);
     });
   }
   getDeveloperTeamLeadUsers() {
-    return this.usersRoomRol.filter((users) => users.userType === UserType.Developer|| users.userType===UserType.TeamLead);
-  }
+    return this.usersRoomRol.filter((users) => users.userType === UserType.Developer || users.userType === UserType.TeamLead);
+    }
 
 //EKLEME İŞLEMLERİ
   onCreate(entity: RoomRequest) {
