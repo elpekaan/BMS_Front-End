@@ -7,6 +7,7 @@ import { ResponseStatus } from 'src/core/models/response/base-response.model';
 import { Router } from '@angular/router';
 import { ProjectRequest } from 'src/core/models/request/project-request.model';
 import { MessageService } from 'primeng/api';
+import { AuthService } from 'src/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-project',
@@ -15,7 +16,7 @@ import { MessageService } from 'primeng/api';
 })
 export class DeveloperProjectComponent implements OnInit {
 
-  constructor(private apiService: ApiService, private messageService: MessageService) { }
+  constructor(private apiService: ApiService,private authService: AuthService, private messageService: MessageService) { }
 
   projects: Project[] = [];
   public projectRequest: ProjectRequest = <ProjectRequest>{};
@@ -29,8 +30,10 @@ export class DeveloperProjectComponent implements OnInit {
 
   ngOnInit() {
     // Projeleri, kullanıcıları ve odaları getir
+    const currentUserId = this.authService.getCurrentUserId();
     this.apiService.getAllEntities(Project).subscribe((projectResult) => {
-      this.projects = projectResult.data;
+      this.projects = projectResult.data.filter((project) => project.userId === currentUserId);
+     
     });
     this.apiService.getAllEntities(Room).subscribe((roomResult) => {
       this.rooms = roomResult.data;
@@ -43,7 +46,14 @@ export class DeveloperProjectComponent implements OnInit {
 
     this.refresh();
   }
-
+  // Sayfayı yenileme
+  refresh() {
+    const currentUserId = this.authService.getCurrentUserId();
+    this.apiService.getAllEntities(Project).subscribe((projectResult) => {
+      this.projects = projectResult.data.filter((project) => project.userId === currentUserId);
+     
+    });
+  }
   // Kullanıcı adını kullanıcı kimliğiyle bulma
   findUserName(userId: number): string {
     const user = this.users.find((user) => user.id === userId);
@@ -75,13 +85,7 @@ export class DeveloperProjectComponent implements OnInit {
         return 'Unknown';
     }
   }
-  // Sayfayı yenileme
-  refresh() {
-    this.apiService.getAllEntities(Project).subscribe((response) => {
-      this.projects = response.data;
-      console.log(this.projects);
-    });
-  }
+
 }
 
 

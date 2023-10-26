@@ -7,6 +7,7 @@ import { User, UserType } from 'src/core/models/user.model';
 import { ResponseStatus } from 'src/core/models/response/base-response.model';
 import { RoomRequest } from 'src/core/models/request/room-request.model';
 import { MessageService } from 'primeng/api';
+import { AuthService } from 'src/core/services/auth/auth.service';
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
@@ -14,7 +15,9 @@ import { MessageService } from 'primeng/api';
 })
 export class DeveloperRoomComponent implements OnInit {
 
-  constructor(private apiService: ApiService, private messageService: MessageService) { }
+  constructor(private apiService: ApiService, private authService: AuthService, private messageService: MessageService) {
+
+  }
 
   rooms: Room[] = [];
   public roomRequest: RoomRequest = <RoomRequest>{}
@@ -25,34 +28,37 @@ export class DeveloperRoomComponent implements OnInit {
   usersRoomRol: User[] = [];
 
   ngOnInit() {
+    const currentUserId = this.authService.getCurrentUserId();
     this.apiService.getAllEntities(Room).subscribe((roomResult) => {
-      this.rooms = roomResult.data;
-      console.log(roomResult.data)
-    })
+      this.rooms = roomResult.data.filter((room) => room.userId === currentUserId);
+
+    });
     this.apiService.getAllEntities(Project).subscribe((projectResult) => {
       this.projects = projectResult.data;
       console.log(projectResult.data)
     })
     this.apiService.getAllEntities(User).subscribe((userResult) => {
       this.users = userResult.data;
-      this.usersRoomRol=userResult.data;
+      this.usersRoomRol = userResult.data;
       console.log(userResult.data)
     })
   }
- 
+  // Sayfayı yenileme
+  refresh() {
+    const currentUserId = this.authService.getCurrentUserId();
+    this.apiService.getAllEntities(Room).subscribe((roomResult) => {
+      this.rooms = roomResult.data.filter((room) => room.userId === currentUserId);
+
+    });
+  }
   findUserName(userId: number): string {
     const user = this.users.find((user) => user.id === userId);
     return user ? user.fullName : '';
   }
 
-  refresh() {
-    this.apiService.getAllEntities(Room).subscribe((response) => {
-      this.rooms = response.data;
-      console.log(this.rooms)
-    });
-  }
+
   getDeveloperTeamLeadUsers() {
-    return this.usersRoomRol.filter((users) => users.userType === UserType.Developer|| users.userType===UserType.TeamLead);
+    return this.usersRoomRol.filter((users) => users.userType === UserType.Developer || users.userType === UserType.TeamLead);
   }
 
 }

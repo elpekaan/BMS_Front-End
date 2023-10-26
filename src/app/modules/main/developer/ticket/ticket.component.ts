@@ -7,6 +7,7 @@ import { ResponseStatus } from 'src/core/models/response/base-response.model';
 import { Router } from '@angular/router';
 import { TicketRequest } from 'src/core/models/request/ticket-request.model';
 import { MessageService } from 'primeng/api';
+import { AuthService } from 'src/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-ticket',
@@ -15,7 +16,7 @@ import { MessageService } from 'primeng/api';
 })
 export class DeveloperTicketComponent {
 
-  constructor(private apiService: ApiService, private messageService: MessageService) { }
+  constructor(private apiService: ApiService,private authService: AuthService, private messageService: MessageService) { }
 
   tickets: Ticket[] = [];
   public ticketRequest: TicketRequest = <TicketRequest>{}
@@ -27,9 +28,12 @@ export class DeveloperTicketComponent {
 
 
   ngOnInit() {
-    this.apiService.getAllEntities(Ticket).subscribe((ticketResult) => {
-      this.tickets = ticketResult.data;
-    });
+     // Görevleri ve kullanıcıları çek
+     const currentUserId = this.authService.getCurrentUserId();
+     this.apiService.getAllEntities(Ticket).subscribe((ticketResult) => {
+       this.tickets = ticketResult.data.filter((ticket) => ticket.userId === currentUserId);
+ 
+     });
     this.apiService.getAllEntities(User).subscribe((userResult) => {
       this.users = userResult.data;
       this.usersTicketRol = userResult.data;
@@ -39,7 +43,13 @@ export class DeveloperTicketComponent {
       this.roomsTicketRol = roomResult.data;
     })
   }
-
+  refresh() {
+    const currentUserId = this.authService.getCurrentUserId();
+     this.apiService.getAllEntities(Ticket).subscribe((ticketResult) => {
+       this.tickets = ticketResult.data.filter((ticket) => ticket.userId === currentUserId);
+ 
+     });
+  }
   findUserName(userId: number): string {
     const user = this.users.find((user) => user.id === userId);
     return user ? user.fullName : ''; // Kullanıcı adını göster veya boş bir dize döndür
@@ -74,12 +84,7 @@ export class DeveloperTicketComponent {
 
     })
   }
-  refresh() {
-    this.apiService.getAllEntities(Ticket).subscribe((response) => {
-      this.tickets = response.data;
-      console.log(this.tickets)
-    });
-  }
+
   getDeveloperTeamLeadUsers() {
     return this.usersTicketRol.filter((users) => users.userType === UserType.Developer || users.userType === UserType.TeamLead);
   }

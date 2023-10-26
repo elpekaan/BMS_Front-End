@@ -45,6 +45,13 @@ export class AuthService {
     }
     return undefined;
   }
+  getCurrentUserId(): number | undefined {
+    const currentUserId = this.currentUserSubject.value;
+    if (currentUserId) {
+      return currentUserId.id;
+    }
+    return undefined;
+  }
 
   private async redirectToAppropriatePage(userType: number) {
     if (userType === 0) {

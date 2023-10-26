@@ -5,6 +5,7 @@ import { User, UserType } from 'src/core/models/user.model';
 import { ResponseStatus } from 'src/core/models/response/base-response.model';
 import { MyTaskRequest } from 'src/core/models/request/mytask-request.model';
 import { MessageService } from 'primeng/api';
+import { AuthService } from 'src/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-task',
@@ -14,7 +15,7 @@ import { MessageService } from 'primeng/api';
 export class DeveloperTaskComponent implements OnInit {
 
 
-  constructor(private apiService: ApiService,private messageService: MessageService) { }
+  constructor(private apiService: ApiService,private authService: AuthService,private messageService: MessageService) { }
 
   myTasks: MyTask[] = [];
   public taskRequest: MyTaskRequest = <MyTaskRequest>{}
@@ -25,8 +26,9 @@ export class DeveloperTaskComponent implements OnInit {
 
   ngOnInit() {
     // Görevleri ve kullanıcıları çek
+    const currentUserId = this.authService.getCurrentUserId();
     this.apiService.getAllEntities(MyTask).subscribe((taskResult) => {
-      this.myTasks = taskResult.data;
+      this.myTasks = taskResult.data.filter((task) => task.userId === currentUserId);
 
     });
     this.apiService.getAllEntities(User).subscribe((userResult) => {
@@ -34,6 +36,13 @@ export class DeveloperTaskComponent implements OnInit {
       this.usersMyTaskRol = userResult.data;
     });
 
+  }
+  refresh() {
+    const currentUserId = this.authService.getCurrentUserId();
+    this.apiService.getAllEntities(MyTask).subscribe((taskResult) => {
+      this.myTasks = taskResult.data.filter((task) => task.userId === currentUserId);
+
+    });    
   }
   // Kullanıcı adını kullanıcı kimliği ile bul
   findUserName(userId: number): string {
@@ -59,11 +68,6 @@ export class DeveloperTaskComponent implements OnInit {
     }
   }
 
-  refresh() {
-    this.apiService.getAllEntities(MyTask).subscribe((response) => {
-      this.myTasks = response.data;
-      console.log(this.myTasks)
-    });    
-  }
+ 
  
 }
